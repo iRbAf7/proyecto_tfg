@@ -1,35 +1,57 @@
 <?php
 if(!empty($res)){
-    echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+    echo "<div class='logger logger-login' role='alert'>" .$message . "</div>";
 
     if ($cargo){
-        echo "<div class='alert alert-danger' role='alert'> Càrrecs: " ;
+        echo "<div class='logger logger-login' role='alert'> Àmbit: " ;
+        foreach ($ambitos as $ambito){
+            echo "<li> ".$ambito."</li>";
+        }
+
+        echo "Càrrecs:";
         echo "<li>".$cargo[0]['descripcion']."</li></div>";
     }else{
-        echo "<div class='alert alert-danger' role='alert'> No te cap càrrec. </div>" ;
+        if ($asigs){
+            echo "<div class='logger logger-login' role='alert'> Àmbit: " ;
+            echo "<li> ".$ambitos[0]."</li></div>";
+        }
+
+        echo "<div class='logger logger-login' role='alert'> No te cap càrrec. </div>" ;
     }
+
     if ($asigs){
-        echo "<div class='alert alert-danger' role='alert'> Assignatures: <br>" ;
+        echo "<div class='logger logger-login' role='alert'> Assignatures: <br>" ;
         foreach ($asigs as $asig){
-            echo "<li>".$asig['nombre']."</li>";
+            echo "<li>".$asig['nombre']." - ".$asig['idAsignaturas']."</li>";
         }echo "</div>";
     }else{
-        echo "<div class='alert alert-danger' role='alert'> No dóna cap asignatura. </div>" ;
+        echo "<div class='logger logger-login' role='alert'> No dóna cap asignatura. </div>" ;
     }
-    echo "<div class='alert alert-danger' role='alert'>" .$mensaje1 . "</div>";
-    //header("Refresh:6; url=/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta");
-    echo "<button id='myButton'> Siguiente </button>";
+
+    if (count($ambitos) != 1){
+        echo " Amb quin àmbit vol accedir? <br><br>";
+        echo "<form  method='post' autocomplete='on'  action='?action=info_usuario'>";
+        foreach ($ambitos as $ambit){
+            echo "<button type='submit' name='ambit_selec' class='btn btn-default' value='$ambit'> $ambit </button>  ";
+        }
+        echo "</form>";
+        echo "<br><br>";
+    }else{
+        //echo "<div class='logger logger-login' role='alert'>";
+        echo "<form  method='post' autocomplete='on'  action='?action=info_usuario'>";
+        echo "<button type='submit' class='btn btn-default' name='ambit_selec' value='$ambitos[0]'> Especificar enquesta </button><br><br>";
+        echo "</form>";//echo "</div><br><br>";
+    }
 
 }else{
-    echo "<div class='alert alert-danger' role='alert'>" .$mensaje2 . "</div>";
+    echo "<div class='logger logger-login' role='alert'> Àmbit: " ;
+    echo "<li> ".$ambitos."</li>";
+    echo "</div>";
+    echo "<div class='logger logger-login' role='alert'>" .$mensaje2 . "</div>";
     //header("Refresh:5; url=/silvia_visor_encuestas_v2/login.php");
-    echo "<button id='myButton'> Siguiente </button>";
+    echo "<form  method='post' autocomplete='on'  action='?action=info_usuario'>";
+    echo "<button type='submit' name='ambit_selec' class='btn btn-default' value='$ambitos' > Especificar enquesta </button><br><br>";
+    echo "</form>";
 }
 
 ?>
-<script>
-    document.getElementById("myButton").onclick = function () {
-        location.href = "/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta";
-    };
-
-</script>

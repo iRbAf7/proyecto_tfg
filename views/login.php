@@ -68,8 +68,11 @@
     <script src="../js/functions.js"></script>
 </head>
 <body class="bg-light">
-<? include __DIR__ . "/../resources/title.html";
+<?php include __DIR__ . "/../resources/title.html";
+/*if (isset($_SESSION['niu']))
+    var_dump($_SESSION['niu']);*/
 ?>
+
 <div class="prod">
     <div id="contenedor">
         <br>

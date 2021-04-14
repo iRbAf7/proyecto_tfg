@@ -1,16 +1,19 @@
 <?php
 require_once("models/connection.php");
-
+require_once("models/comprobar_permiso_ambito.php");
+require_once("models/comprobar_permiso_defecto.php");
 require_once("models/llistar_models.php");
-$result_llistar_models = llistar_models(connection());
-
 require_once("models/llistar_versions.php");
-$result_llistar_versions = llistar_versions(connection());
-
 require_once("models/llistar_edicions.php");
-$result_llistar_edicions = llistar_edicions(connection());
-
 require_once("models/llistar_pla.php");
+
+
+
+$result_llistar_models = llistar_models(connection());
+$permiso_defecto = comprobar_permiso_defecto(connection(),8,$result_llistar_models[0]['Objeto_idObjeto']);
+$permiso_ambito = comprobar_permiso_ambito(connection(),$_SESSION['ambit_selec'],$result_llistar_models[0]['Objeto_idObjeto']);
+$result_llistar_versions = llistar_versions(connection());
+$result_llistar_edicions = llistar_edicions(connection());
 $result_llistar_pla = llistar_pla(connection());
 
 if (isset($_SESSION['niu'])){
@@ -19,6 +22,8 @@ if (isset($_SESSION['niu'])){
         if (!isset($_SESSION['form'])){
             $_SESSION['form'] = array();
         }
+
+
         $nom_model = $_POST['nom_model'];
         array_push($_SESSION['form'], $nom_model);
         $nom_versio = $_POST['nom_versio'];

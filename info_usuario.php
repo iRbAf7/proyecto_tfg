@@ -27,10 +27,9 @@
 <body class="bg-light">
 <?php include __DIR__ . "/resources/title.html"; ?>
 
-<?php include __DIR__ . "/resources/navigator.html"; ?>
 
 <div class="container">
-    <?php include __DIR__ . "/controllers/consultar_resultats.php"; ?>
+    <?php include __DIR__ . "/controllers/info_usuario.php"; ?>
 </div>
 
 <?php include __DIR__ . "/resources/footer.html"; ?>

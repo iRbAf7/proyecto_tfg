@@ -1,6 +1,7 @@
 <?php
 
-echo $_SESSION['niu'];?>
+echo $_SESSION['niu'];
+var_dump($_SESSION['ambit_selec']);?>
 <div id="formEdicio">
     <h6 class="border-bottom border-gray pb-2 mb-0">Informació sobre l'enquesta</h6>
     <?php

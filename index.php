@@ -12,9 +12,9 @@ switch ($action) {
     case 'res':
         include __DIR__.'/consultar_resultats.php';
         break;
-    /*case 'login':
-        include __DIR__.'/login.php';
-        break;*/
+    case 'info_usuario':
+        include __DIR__.'/info_usuario.php';
+        break;
     case 'logout':
         include __DIR__.'/logout.php';
         break;
