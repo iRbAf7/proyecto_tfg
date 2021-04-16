@@ -7,7 +7,7 @@ require_once("models/consultarAsigsUser.php");
 
 if (isset($_POST['ambit_selec'])){
     $_SESSION['ambit_selec']= $_POST['ambit_selec'];
-
+    $_SESSION['ambito_defecto']='Estudiant';
     header("Refresh: 0; url=/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta");
 }else{
     $res = niu_existent(connection(), $_SESSION['niu']);
@@ -16,7 +16,8 @@ if (isset($_POST['ambit_selec'])){
         //$_SESSION['niu'] = $res[0]['niu'];
         $message = "Hola ".$res[0]['nombre']." ".$res[0]['apellido']."!";
 
-        $cargo= consultarCargos(connection(),$res[0]['niu']);//comprueba cargos y ambitos y idAmbito
+        $cargo= consultarCargos(connection(),$res[0]['niu']);//devuelve cargos.descripcion, ambitos.nom
+        $_SESSION['idEnAmbito'] =  $cargo[0]['idEnAmbito'];
         $asigs = consultarAsigsUser(connection(),$_SESSION['niu']);
 
 

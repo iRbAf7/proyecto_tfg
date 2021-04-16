@@ -1,7 +1,13 @@
 <?php
 
 echo $_SESSION['niu'];
-var_dump($_SESSION['ambit_selec']);?>
+//var_dump($_SESSION['permiso_superior']);
+//var_dump($_SESSION['form']);
+
+var_dump($nom_pla);
+var_dump($pla);
+//var_dump($result_llistar_assignatures);
+?>
 <div id="formEdicio">
     <h6 class="border-bottom border-gray pb-2 mb-0">Informació sobre l'enquesta</h6>
     <?php

@@ -3,7 +3,8 @@ function llistar_assig_totes($connection, $nomEdicio) {
     try {
         $query = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
                                         FROM asignaturas INNER JOIN resultats ON resultats.Assignatura = asignaturas.idAsignaturas 
-                                        WHERE resultats.nomEdicio = :nomEdicio ORDER BY asignaturas.nombre ASC");
+                                        WHERE resultats.nomEdicio = :nomEdicio 
+                                        ORDER BY asignaturas.nombre ASC");
         $parameters = [
             'nomEdicio' => $nomEdicio,
         ];

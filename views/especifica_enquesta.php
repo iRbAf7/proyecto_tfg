@@ -1,11 +1,18 @@
 <?php
 
 echo $_SESSION['niu'];
-var_dump($_SESSION['ambit_selec']);
-var_dump($permiso_defecto);
-//var_dump($result_llistar_models[0]);?>
+ //var_dump($lista_graus_estudis);
+ //var_dump($result_llistar_models);
+var_dump($result_llistar_pla);
+var_dump($_SESSION['lista_graus_estudis']);
+?>
 <div id="formEdicio">
     <h6 class="border-bottom border-gray pb-2 mb-0">Definir models, versió, edició i pla d'estudis</h6>
+    <h4><?php
+        if (isset($sin_permisos)){
+            echo "<div class='alert alert-danger' role='alert'>".$sin_permisos." </div>" ;
+        }
+        ?></h4>
     <form class="form-horizontal" action="index.php?action=especifica_enquesta" method="post">
         <div class="form-group">
             <br>
@@ -43,7 +50,11 @@ var_dump($permiso_defecto);
             <label class="control-label col-sm-2" for="pla_estudis">Pla d'estudis: </label>
             <div class="col-sm-10">
                 <select name="pla_estudis" id="pla_estudis" class="form-control">
-                    <option value="0">Tots</option>
+                    <option value="0"><?php
+                        if (!isset($sin_permisos)){
+                            echo "Tots" ;
+                        }
+                        ?></option>
                     <?php foreach ($result_llistar_pla as $pla): ?>
                         <option value="<?php echo $pla['idEstudio'];?>"><?php echo htmlentities($pla['nombre']);?></option>
                     <?php endforeach; ?>

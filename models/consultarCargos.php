@@ -1,7 +1,7 @@
 <?php
 function consultarCargos($conexion,$niu){
     try{
-        $consultar_profesores = $conexion->prepare("SELECT cargos.descripcion, ambitos.nom
+        $consultar_profesores = $conexion->prepare("SELECT cargos.descripcion, ambitos.nom, cargos.idEnAmbito
                                                 FROM cargos_has_profesores INNER JOIN cargos 
                                                 ON cargos_has_profesores.Cargos_idCargos = cargos.idCargos
                                                 INNER JOIN ambitos

@@ -23,6 +23,7 @@ require_once("models/preguntes.php");
 require_once("models/obert_tot.php");
 
 require_once("models/niu_existent.php");
+require_once("models/comprobar_asig_en_estudio.php");
 
 if (isset($_SESSION['niu'])) {
 
@@ -30,16 +31,22 @@ if (isset($_SESSION['niu'])) {
     $permis = $niu_existent[0];//[1];
 
     if(isset($_GET['as'])) {
-
+        //se hace un header() desde controller/escollir_assignatura
+        //header("Refresh: 0; url=/silvia_visor_encuestas_v2/index.php?action=res&ve=$versio&ed=$edicio&pla=$pla&as=$assignatures");
         $versio = $_GET['ve'];
         $edicio = $_GET['ed'];
         $pla = $_GET['pla'];
         $assignatura = $_GET['as'];
 
+        if(isset($_SESSION['lista_graus_estudis'])){
+            //coomprobar si la asgignatura pertenece al estudio
+            $pertenece = comprobar_asig_en_estudio(connection(),$_SESSION['lista_graus_estudis'][0]['idEstudio'], $assignatura);
+        }
+
         $nom_pla = nom_pla(connection(), "$pla");
         $nom_edicio = nom_edicio(connection(), "$edicio");
         $nom_assigantura = nom_assignatura(connection(), "$assignatura");
-        $matriculats = matriculats_total(connection(), "$assignatura");
+        //$matriculats = matriculats_total(connection(), "$assignatura");
         $preguntes = preguntes(connection(), "$versio");
 
         $grup = "Tots";

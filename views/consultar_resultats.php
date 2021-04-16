@@ -11,7 +11,12 @@
 
 <?php
 
-echo $_SESSION['niu'];?>
+echo $_SESSION['niu'];
+var_dump($permis);
+var_dump($assignatura);
+var_dump($_SESSION['lista_graus_estudis']);
+var_dump($pertenece);
+?>
 <div>
     <h3><?php echo $nom_assigantura[0][0] ?></h3>
     <br>
@@ -53,20 +58,26 @@ echo $_SESSION['niu'];?>
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[0]['numero'] ?>. <?php echo $preguntes[0]['enunciat'] ?></h6>
     <div>
         <br>
-        <?php include __DIR__ . "/grafics/AssigG01.php"; ?>
+        <?php
+
+        include __DIR__ . "/grafics/AssigG01.php"; ?>
     </div>
 
 
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[1]['numero'] ?>. <?php echo $preguntes[1]['enunciat'] ?></h6>
     <div>
-        <?php include __DIR__ . "/grafics/AssigG02.php"; ?>
+        <?php
+
+        include __DIR__ . "/grafics/AssigG02.php"; ?>
     </div>
     <br>
 
 
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[2]['numero'] ?>. <?php echo $preguntes[2]['enunciat'] ?></h6>
     <div>
-        <?php include __DIR__ . "/grafics/AssigG03.php"; ?>
+        <?php
+
+        include __DIR__ . "/grafics/AssigG03.php"; ?>
     </div>
     <br>
 
