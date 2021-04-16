@@ -3,6 +3,10 @@
 echo $_SESSION['niu'];
  //var_dump($lista_graus_estudis);
  //var_dump($result_llistar_models);
+
+var_dump($_SESSION['permiso_defecto']);
+var_dump($_SESSION['permiso_ambito']);
+//var_dump($permiso_ambito);
 var_dump($result_llistar_pla);
 var_dump($_SESSION['lista_graus_estudis']);
 ?>

@@ -37,12 +37,14 @@ if (isset($_SESSION['niu'])){
         switch ($_SESSION['ambit_selec']){
             case 'Estudis':
                 if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                    echo"1";
                     //Accés * als graus “corresponents” i a totes les assignatures d’aquests graus
                     //llista de graus -- tots asigs de llista
                     $_SESSION['permiso_superior'] = $_SESSION['permiso_ambito'];
                     $result_llistar_pla = consulta_graus_estudis(connection(),$_SESSION['idEnAmbito'] );
                 }else{
-                    if ($_SESSION['permiso_defecto'] == "basico" && $permiso_ambito = "total"){
+                    if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+                        echo "2";
                         //Accés BÀSIC a tots els graus i a totes les assignatures
                         //Accés TOTAL als graus “corresponents” i a totes les assignatures d’aquests graus
                         $_SESSION['is_doble_lista'] = true;
@@ -83,6 +85,7 @@ foreach ($array as $arr){
 ?>
                         */
                     }else{
+                        echo "3";
                         $_SESSION['permiso_superior'] = $_SESSION['permiso_defecto'];
                         //Accés * a tots els graus i a totes les assignatures
                         //llista tota graus y totes asigs

@@ -1,5 +1,5 @@
 <div id="AssigG01"></div>
-<script type="text/javascript" src="https://mbostock.github.com/d3/d3.js?2.1.3"></script>
+<script type="text/javascript" src="https://mbostock.github.io/d3/d3.js?2.1.3"></script>
 <script src="https://d3js.org/d3.v4.js"></script>
 <script>
 

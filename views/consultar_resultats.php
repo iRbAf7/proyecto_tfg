@@ -11,11 +11,17 @@
 
 <?php
 
-echo $_SESSION['niu'];
+/*echo $_SESSION['niu'];
 var_dump($permis);
 var_dump($assignatura);
 var_dump($_SESSION['lista_graus_estudis']);
-var_dump($pertenece);
+var_dump($pertenece);*/
+//var_dump($_SESSION['niu']);
+//var_dump($niu_existent);
+//var_dump($_SESSION['lista_graus_estudis'][0]['idEstudio']);
+var_dump($assignatura);
+//var_dump($pertenece['count(1)']);
+//var_dump($preguntes);
 ?>
 <div>
     <h3><?php echo $nom_assigantura[0][0] ?></h3>
@@ -59,16 +65,55 @@ var_dump($pertenece);
     <div>
         <br>
         <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[0]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG01.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG01.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[0]['necessita_privilegi'] == 0 || ($preguntes[0]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG01.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+            }
 
-        include __DIR__ . "/grafics/AssigG01.php"; ?>
+
+        }
+        //include __DIR__ . "/grafics/AssigG01.php"; ?>
     </div>
 
 
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[1]['numero'] ?>. <?php echo $preguntes[1]['enunciat'] ?></h6>
     <div>
         <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[1]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG02.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG02.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[1]['necessita_privilegi'] == 0 || ($preguntes[1]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG02.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+            }
 
-        include __DIR__ . "/grafics/AssigG02.php"; ?>
+
+        }
+
+        //include __DIR__ . "/grafics/AssigG02.php"; ?>
     </div>
     <br>
 
@@ -76,8 +121,28 @@ var_dump($pertenece);
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[2]['numero'] ?>. <?php echo $preguntes[2]['enunciat'] ?></h6>
     <div>
         <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[2]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG03.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG03.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[2]['necessita_privilegi'] == 0 || ($preguntes[2]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG03.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+            }
 
-        include __DIR__ . "/grafics/AssigG03.php"; ?>
+
+        }
+
+        //include __DIR__ . "/grafics/AssigG03.php"; ?>
     </div>
     <br>
 
@@ -103,7 +168,28 @@ var_dump($pertenece);
     <br>
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana4[0][0] ?></small>
     <div>
-        <?php include __DIR__ . "/grafics/AssigG04.php"; ?>
+        <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[3]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG04.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG04.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[3]['necessita_privilegi'] == 0 || ($preguntes[3]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG04.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+            }
+
+
+        }
+        //include __DIR__ . "/grafics/AssigG04.php"; ?>
     </div>
 
 
@@ -125,7 +211,28 @@ var_dump($pertenece);
     <br>
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana5[0][0] ?></small>
     <div>
-        <?php include __DIR__ . "/grafics/AssigG05.php"; ?>
+        <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[4]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG05.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG05.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[4]['necessita_privilegi'] == 0 || ($preguntes[4]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG05.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+            }
+
+
+        }
+        //include __DIR__ . "/grafics/AssigG05.php"; ?>
     </div>
 
 
@@ -147,7 +254,28 @@ var_dump($pertenece);
     <br>
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana6[0][0] ?></small>
     <div>
-        <?php include __DIR__ . "/grafics/AssigG06.php"; ?>
+        <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[5]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG06.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG06.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[5]['necessita_privilegi'] == 0 || ($preguntes[5]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG06.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+            }
+
+
+        }
+        //include __DIR__ . "/grafics/AssigG06.php"; ?>
     </div>
 
 
@@ -169,7 +297,28 @@ var_dump($pertenece);
     <br>
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana7[0][0] ?></small>
     <div>
-        <?php include __DIR__ . "/grafics/AssigG07.php"; ?>
+        <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[6]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG07.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG07.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[6]['necessita_privilegi'] == 0 || ($preguntes[6]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG07.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+            }
+
+
+        }
+        //include __DIR__ . "/grafics/AssigG07.php"; ?>
     </div>
 
 
@@ -191,7 +340,28 @@ var_dump($pertenece);
     <br>
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana8[0][0] ?></small>
     <div>
-        <?php include __DIR__ . "/grafics/AssigG08.php"; ?>
+        <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[7]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG08.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG08.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[7]['necessita_privilegi'] == 0 || ($preguntes[7]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG08.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+            }
+
+
+        }
+        //include __DIR__ . "/grafics/AssigG08.php"; ?>
     </div>
 
 
@@ -213,7 +383,28 @@ var_dump($pertenece);
     <br>
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana9[0][0] ?></small>
     <div>
-        <?php include __DIR__ . "/grafics/AssigG09.php"; ?>
+        <?php
+        if(isset($_SESSION['lista_graus_estudis'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+            if ($pertenece['count(1)'] == '0'){
+                if ($preguntes[8]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+                    include __DIR__ . "/grafics/AssigG09.php";
+                }else{
+                    echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
+                }
+            }else{
+                include __DIR__ . "/grafics/AssigG09.php";
+            }
+        }else{
+            //si entra aqui es que tiene permiso basico o total
+            if( $preguntes[8]['necessita_privilegi'] == 0 || ($preguntes[8]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+                include __DIR__ . "/grafics/AssigG09.php";
+            }else{
+                echo "<div class='alert alert-danger' role='alert'> No te permisos per visualitzar enquesta pregunta. </div>";
+            }
+
+
+        }
+        //include __DIR__ . "/grafics/AssigG09.php"; ?>
     </div>
 
     <?php
@@ -221,7 +412,7 @@ var_dump($pertenece);
     $privilegi_10 = nivell_privilegi(connection(),$preguntes[9]['numero']);
     $privilegi_11 = nivell_privilegi(connection(),$preguntes[10]['numero']);
     if(!empty($permis)) {
-        if($privilegi_10[0][0] == "Alt" and $privilegi_11[0][0] == "Alt") { ?>
+        if($privilegi_10[0][0] == "1" and $privilegi_11[0][0] == "1") { ?>
             <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[9]['numero'] ?>
                 . <?php echo $preguntes[9]['enunciat'] ?></h6>
             <?php $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$assignatura"); ?>
@@ -242,7 +433,16 @@ var_dump($pertenece);
                     </div>
                 </div>
             </div>
-
+<?php }
+    }
+        ?>
+    /////////////////////////////////////////////////////////////////////////////
+    <?php
+    require_once("models/nivell_privilegi.php");
+    $privilegi_10 = nivell_privilegi(connection(),$preguntes[9]['numero']);
+    $privilegi_11 = nivell_privilegi(connection(),$preguntes[10]['numero']);
+    if(!empty($permis)) {
+        if($privilegi_10[0][0] == "1" and $privilegi_11[0][0] == "1") {?>
             <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[10]['numero'] ?>
                 . <?php echo $preguntes[10]['enunciat'] ?></h6>
             <?php $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$assignatura"); ?>

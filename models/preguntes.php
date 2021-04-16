@@ -1,7 +1,7 @@
 <?php
 function preguntes($connection, $nom_versio) {
     try {
-        $query = $connection->prepare("SELECT numero,enunciat FROM preguntes Where nom_versio = :nom_versio");
+        $query = $connection->prepare("SELECT numero,enunciat,necessita_privilegi FROM preguntes Where nom_versio = :nom_versio");
         $parameters = [
             'nom_versio' => $nom_versio
         ];

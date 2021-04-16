@@ -46,7 +46,7 @@ if (isset($_SESSION['niu'])) {
         $nom_pla = nom_pla(connection(), "$pla");
         $nom_edicio = nom_edicio(connection(), "$edicio");
         $nom_assigantura = nom_assignatura(connection(), "$assignatura");
-        //$matriculats = matriculats_total(connection(), "$assignatura");
+        $matriculats = matriculats_total(connection(), "$assignatura");
         $preguntes = preguntes(connection(), "$versio");
 
         $grup = "Tots";

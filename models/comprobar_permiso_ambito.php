@@ -10,6 +10,7 @@ function comprobar_permiso_ambito($conexion,$ambito, $idObjeto){
         $consulta_idAmbito->execute($parametros);
         $consulta_idAmbito = $consulta_idAmbito->fetchAll(PDO::FETCH_ASSOC);
 
+        //var_dump($consulta_idAmbito[0]['idAmbitos']);
         $consultar_permiso = $conexion->prepare("SELECT nivel
                                                 FROM permisos
                                                 WHERE Objeto_idObjeto =:idObjeto
