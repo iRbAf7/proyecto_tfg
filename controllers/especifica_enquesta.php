@@ -9,6 +9,8 @@ require_once("models/llistar_pla.php");
 require_once("models/comprobar_idAmbito_defecto.php");
 
 require_once("models/consulta_graus_estudis.php");
+require_once("models/consulta_graus_centres.php");
+require_once("models/consulta_graus_departaments.php");
 
 
 
@@ -47,8 +49,6 @@ if (isset($_SESSION['niu'])){
                         echo "2";
                         //Accés BÀSIC a tots els graus i a totes les assignatures
                         //Accés TOTAL als graus “corresponents” i a totes les assignatures d’aquests graus
-                        $_SESSION['is_doble_lista'] = true;
-
                         $_SESSION['lista_graus_estudis'] = consulta_graus_estudis(connection(),$_SESSION['idEnAmbito'] );
                         $result_llistar_pla = llistar_pla(connection()); //a la hora de mostrar los resultados de las encuestas
                                                                         // comprobar si la asignatura esta dentro de la otra lista
@@ -94,19 +94,59 @@ foreach ($array as $arr){
                 }
                 break;
             case 'Centres':
-
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                    echo"4";
+                    //Accés * als graus “corresponents” i a totes les assignatures d’aquests graus
+                    //llista de graus -- tots asigs de llista
+                    $_SESSION['permiso_superior'] = $_SESSION['permiso_ambito'];
+                    $result_llistar_pla = consulta_graus_centres(connection(),$_SESSION['idEnAmbito'] );
+                }else{
+                    if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+                        echo "5";
+                        //Accés BÀSIC a tots els graus i a totes les assignatures
+                        //Accés TOTAL als graus “corresponents” i a totes les assignatures d’aquests graus
+                        //falta cambiar nombre de la sesiion a lista_graus_centres
+                        $_SESSION['lista_graus_centres'] = consulta_graus_centres(connection(),$_SESSION['idEnAmbito'] );///
+                        $result_llistar_pla = llistar_pla(connection()); //a la hora de mostrar los resultados de las encuestas
+                        // comprobar si la asignatura esta dentro de la otra lista
+                    }else{
+                        echo "6";
+                        $_SESSION['permiso_superior'] = $_SESSION['permiso_defecto'];
+                        //Accés * a tots els graus i a totes les assignatures
+                        //llista tota graus y totes asigs
+                        $result_llistar_pla = llistar_pla(connection());
+                    }
+                }
                 break;
             case 'Departaments':
 
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                    echo"7";
+                    //Accés * als graus “corresponents” i a totes les assignatures d’aquests graus
+                    //llista de graus -- tots asigs de llista
+                    $_SESSION['permiso_superior'] = $_SESSION['permiso_ambito'];
+                    $result_llistar_pla = consulta_graus_departaments(connection(),$_SESSION['idEnAmbito'] );
+                }else{
+                    if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+                        echo "8";
+                        //Accés BÀSIC a tots els graus i a totes les assignatures
+                        //Accés TOTAL als graus “corresponents” i a totes les assignatures d’aquests graus
 
+                        //$_SESSION['lista_graus_dept'] = consulta_graus_departaments(connection(),$_SESSION['idEnAmbito']);///
+                        $_SESSION['entra_dept'] = true;
+                        $result_llistar_pla = llistar_pla(connection());
+                    }else{
+                        echo "9";
+                        $_SESSION['permiso_superior'] = $_SESSION['permiso_defecto'];
+                        //Accés * a tots els graus i a totes les assignatures
+                        //llista tota graus y totes asigs
+                        $result_llistar_pla = llistar_pla(connection());
+                    }
+                }
                 break;
-            case 'Universitat':
-
-
-                break;
-            case 'Estudiant':
-
-
+            default:
+                $_SESSION['permiso_superior'] = $_SESSION['permiso_ambito'];
+                $result_llistar_pla = llistar_pla(connection());
                 break;
         }
 
@@ -128,6 +168,7 @@ foreach ($array as $arr){
         array_push($_SESSION['form'], $nom_edicio);
         $pla_estudis = $_POST['pla_estudis'];//devuelde id del estudio, 958
         array_push($_SESSION['form'], $pla_estudis);
+
 
         header("Refresh: 0; url=/silvia_visor_encuestas_v2/index.php?action=escollir_assignatura");
     } else {

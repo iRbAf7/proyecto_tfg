@@ -2,6 +2,7 @@
 require_once("models/connection.php");
 require_once("models/llistar_assignatures.php");
 require_once("models/llistar_assig_totes.php");
+require_once("models/llistar_assignatures_dept.php");
 require_once("models/nom_pla.php");
 require_once("models/nom_model.php");
 require_once("models/nom_versio.php");
@@ -20,11 +21,35 @@ if (isset($_SESSION['niu'])) {
         $nom_edicio = nom_edicio(connection(), "$edicio");
         $nom_pla = nom_pla(connection(), "$pla");
 
-        if($pla != 0) {//escoge estudio concreto
-            $result_llistar_assignatures = llistar_assignatures(connection(), "$edicio", "$pla");
-        }else {
-            $result_llistar_assignatures = llistar_assig_totes(connection(), "$edicio");
+        if($_SESSION['ambit_selec'] == 'Departaments' || isset($_SESSION['entra_dept']))
+        {
+            $_SESSION['asigs_dept'] = llistar_assignatures_dept(connection(),$_SESSION['idEnAmbito'],"$edicio", "$pla");
         }
+
+        if($pla != 0) {//escoge estudio concreto
+            if($_SESSION['ambit_selec'] == 'Departaments' && isset($_SESSION['permiso_superior'])){
+                if($_SESSION['permiso_superior'] == $_SESSION['permiso_ambito']){
+                    $result_llistar_assignatures = $_SESSION['asigs_dept'];
+                }else{
+                    $result_llistar_assignatures = llistar_assignatures(connection(), "$edicio", "$pla");
+                }
+            }else{
+                $result_llistar_assignatures = llistar_assignatures(connection(), "$edicio", "$pla");
+            }
+        }else {
+            if($_SESSION['ambit_selec'] == 'Departaments' && isset($_SESSION['permiso_superior'])){
+                if($_SESSION['permiso_superior'] == $_SESSION['permiso_ambito']){
+
+                    $result_llistar_assignatures = $_SESSION['asigs_dept'];
+                }else{
+                    $result_llistar_assignatures = llistar_assig_totes(connection(), "$edicio");
+                }
+            }else{
+                $result_llistar_assignatures = llistar_assig_totes(connection(), "$edicio");
+            }
+
+        }
+
         if (isset($_POST['assignatures'])) {
             if (!isset($_SESSION['id_assig'])){
                 $_SESSION['id_assig'] = array();

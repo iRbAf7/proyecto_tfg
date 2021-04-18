@@ -24,6 +24,8 @@ require_once("models/obert_tot.php");
 
 require_once("models/niu_existent.php");
 require_once("models/comprobar_asig_en_estudio.php");
+require_once("models/comprobar_asig_en_centro.php");
+
 
 if (isset($_SESSION['niu'])) {
 
@@ -41,7 +43,29 @@ if (isset($_SESSION['niu'])) {
         if(isset($_SESSION['lista_graus_estudis'])){
             //coomprobar si la asgignatura pertenece al estudio
             $pertenece = comprobar_asig_en_estudio(connection(),$_SESSION['lista_graus_estudis'][0]['idEstudio'], $assignatura);
+            $count = intval($pertenece['count(1)']);
         }
+        if(isset($_SESSION['lista_graus_centres']))
+        {
+            $count = 0;
+            for ($i =0;$i < sizeof($_SESSION['lista_graus_centres']) ;$i++) {
+                $pertenece = comprobar_asig_en_centro(connection(), $_SESSION['lista_graus_centres'][$i]['idEstudio'], $assignatura);
+                $count = $count + intval($pertenece['count(1)']);
+            }
+        }
+        if(isset($_SESSION['asigs_dept']))
+        {
+            var_dump($_SESSION['asigs_dept']);
+            $count = 0;
+            for ($i =0;$i < sizeof($_SESSION['asigs_dept']) ;$i++) {
+                if($_SESSION['asigs_dept'][$i]['Assignatura'] == $assignatura){
+                    $count++;
+                }
+            }
+        }
+
+        $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$assignatura");
+        $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$assignatura");
 
         $nom_pla = nom_pla(connection(), "$pla");
         $nom_edicio = nom_edicio(connection(), "$edicio");

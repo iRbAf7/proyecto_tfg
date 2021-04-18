@@ -7,8 +7,8 @@ echo $_SESSION['niu'];
 var_dump($_SESSION['permiso_defecto']);
 var_dump($_SESSION['permiso_ambito']);
 //var_dump($permiso_ambito);
-var_dump($result_llistar_pla);
-var_dump($_SESSION['lista_graus_estudis']);
+//var_dump($result_llistar_pla);
+//var_dump($_SESSION['lista_graus_centres']);
 ?>
 <div id="formEdicio">
     <h6 class="border-bottom border-gray pb-2 mb-0">Definir models, versió, edició i pla d'estudis</h6>
