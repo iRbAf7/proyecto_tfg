@@ -27,14 +27,12 @@ require_once("models/comprobar_asig_en_estudio.php");
 require_once("models/comprobar_asig_en_centro.php");
 
 
-if (isset($_SESSION['niu'])) {
+if (isset($_SESSION['niu']) ) {
 
-    $niu_existent = niu_existent(connection(),$_SESSION['niu']);
-    $permis = $niu_existent[0];//[1];
+    //$niu_existent = niu_existent(connection(),$_SESSION['niu']);
+    //$permis = $niu_existent[0];//[1];
 
-    if(isset($_GET['as'])) {
-        //se hace un header() desde controller/escollir_assignatura
-        //header("Refresh: 0; url=/silvia_visor_encuestas_v2/index.php?action=res&ve=$versio&ed=$edicio&pla=$pla&as=$assignatures");
+    if(isset($_GET['as']) && $_SESSION['permiso_ambito'] != "ninguno") {
         $versio = $_GET['ve'];
         $edicio = $_GET['ed'];
         $pla = $_GET['pla'];
@@ -55,7 +53,6 @@ if (isset($_SESSION['niu'])) {
         }
         if(isset($_SESSION['asigs_dept']))
         {
-            var_dump($_SESSION['asigs_dept']);
             $count = 0;
             for ($i =0;$i < sizeof($_SESSION['asigs_dept']) ;$i++) {
                 if($_SESSION['asigs_dept'][$i]['Assignatura'] == $assignatura){
@@ -109,9 +106,15 @@ if (isset($_SESSION['niu'])) {
 
         require("views/consultar_resultats.php");
     } else {
-        $message = "Cal especificar l'assignatura / mòdul. Serà redirigit en pocs segons.";
+        if ($_SESSION['permiso_ambito'] == "ninguno")
+        {
+            $message = "No te permisos per visualitzar cap enquesta.";
+        }else{
+            $message = "Cal especificar l'assignatura / mòdul. Serà redirigit en pocs segons.";
+        }
+
         echo "<div class='alert alert-danger' role='alert'>" . $message . "</div>";
-        header("Refresh:7; url=/silvia_visor_encuestas_v2/index.php?action=escollir_assignatura");
+        header("Refresh:4; url=/silvia_visor_encuestas_v2/index.php?action=escollir_assignatura");
     }
 } else {
     require("c_login.php");

@@ -17,21 +17,24 @@ if (isset($_POST['ambit_selec'])){
         $message = "Hola ".$res[0]['nombre']." ".$res[0]['apellido']."!";
 
         $cargo= consultarCargos(connection(),$res[0]['niu']);//devuelve cargos.descripcion, ambitos.nom
-        $_SESSION['idEnAmbito'] =  $cargo[0]['idEnAmbito'];
+        if (!empty($cargo))
+        {
+            $_SESSION['idEnAmbito'] =  $cargo[0]['idEnAmbito'];
+        }
         $asigs = consultarAsigsUser(connection(),$_SESSION['niu']);
-
 
         $ambitos = array();
         if ($cargo){
             array_push($ambitos, $cargo[0]['nom']);
         }
+        //var_dump($cargo[0]['idEnAmbito']);
         if ($asigs){
             array_push($ambitos, "Professors");
         }
 
     }else{
 
-        $mensaje2 = "Es un estudiant.";
+        $mensaje2 = "El usuario ".$_SESSION['niu']." es un estudiant.";
         $ambitos = "Estudiant";
 
     }

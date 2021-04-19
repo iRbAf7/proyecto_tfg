@@ -9,22 +9,6 @@
     }
 </style>
 
-<?php
-
-/*echo $_SESSION['niu'];
-var_dump($permis);
-var_dump($assignatura);
-var_dump($_SESSION['lista_graus_estudis']);
-var_dump($pertenece);*/
-//var_dump($_SESSION['niu']);
-//var_dump($niu_existent);
-//var_dump($_SESSION['lista_graus_centres']);
-//var_dump($_SESSION['lista_graus_dept']);
-var_dump($count);
-var_dump($assignatura);
-//var_dump($pertenece['count(1)']);
-//var_dump($preguntes);
-?>
 <div>
     <h3><?php echo $nom_assigantura[0][0] ?></h3>
     <br>
