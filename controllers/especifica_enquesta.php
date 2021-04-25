@@ -5,6 +5,7 @@ require_once("models/comprobar_permiso_defecto.php");
 require_once("models/llistar_models.php");
 require_once("models/llistar_versions.php");
 require_once("models/llistar_edicions.php");
+require_once("models/llistar_edicions_profes.php");
 require_once("models/llistar_pla.php");
 require_once("models/comprobar_idAmbito_defecto.php");
 
@@ -118,12 +119,14 @@ if (isset($_SESSION['niu'])){
                     //llista de graus -- tots asigs de llista
                     $_SESSION['permiso_superior'] = $_SESSION['permiso_ambito'];
                     $result_llistar_pla = consulta_graus_profes(connection(),$_SESSION['niu']);
+                    $result_llistar_edicions = llistar_edicions_profes(connection(),$_SESSION['niu']);
                 }else{
                     if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
 
                         //Accés BÀSIC a tots els graus i a totes les assignatures
                         //Accés TOTAL als graus “corresponents” i a totes les assignatures d’aquests graus
-                        $_SESSION['lista_graus_profes'] = consulta_graus_profes(connection(),$_SESSION['niu']);///
+                        //$_SESSION['lista_graus_profes'] = consulta_graus_profes(connection(),$_SESSION['niu']);///
+                        $_SESSION['entra_profes'] = true;
                         $result_llistar_pla = llistar_pla(connection());
                     }else{
 

@@ -51,7 +51,7 @@
     <div>
         <br>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 //si entra es que no pertenece a sus correspondientes
                 if ($preguntes[0]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
@@ -79,7 +79,7 @@
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[1]['numero'] ?>. <?php echo $preguntes[1]['enunciat'] ?></h6>
     <div>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 if ($preguntes[1]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                     include __DIR__ . "/grafics/AssigG02.php";
@@ -108,7 +108,7 @@
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[2]['numero'] ?>. <?php echo $preguntes[2]['enunciat'] ?></h6>
     <div>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 if ($preguntes[2]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                     include __DIR__ . "/grafics/AssigG03.php";
@@ -156,7 +156,7 @@
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana4[0][0] ?></small>
     <div>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 if ($preguntes[3]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                     include __DIR__ . "/grafics/AssigG04.php";
@@ -199,7 +199,7 @@
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana5[0][0] ?></small>
     <div>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 if ($preguntes[4]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                     include __DIR__ . "/grafics/AssigG05.php";
@@ -242,7 +242,7 @@
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana6[0][0] ?></small>
     <div>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 if ($preguntes[5]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                     include __DIR__ . "/grafics/AssigG06.php";
@@ -285,7 +285,7 @@
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana7[0][0] ?></small>
     <div>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 if ($preguntes[6]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                     include __DIR__ . "/grafics/AssigG07.php";
@@ -328,7 +328,7 @@
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana8[0][0] ?></small>
     <div>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 if ($preguntes[7]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                     include __DIR__ . "/grafics/AssigG08.php";
@@ -371,7 +371,7 @@
     <small class="text-muted"><strong>Mitjana: </strong></small><small><?php echo $mitjana9[0][0] ?></small>
     <div>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 if ($preguntes[8]['necessita_privilegi'] == 0 && $_SESSION['permiso_defecto'] == "basico"){
                     include __DIR__ . "/grafics/AssigG09.php";
@@ -398,7 +398,7 @@
             <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[9]['numero'] ?>
                 . <?php echo $preguntes[9]['enunciat'] ?></h6>
     <?php
-    if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+    if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
         if ($count == 0){//$pertenece['count(1)'] == '0'){
             if ($preguntes[9]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                 ?> <div class="container">
@@ -470,7 +470,7 @@
             <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[10]['numero'] ?>
                 . <?php echo $preguntes[10]['enunciat'] ?></h6>
     <?php
-    if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+    if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
         if ($count == 0){//$pertenece['count(1)'] == '0'){
             if ($preguntes[10]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                 ?> <div class="container">

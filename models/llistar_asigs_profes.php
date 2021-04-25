@@ -20,7 +20,7 @@ function llistar_asigs_profes($connection, $niu,$nomEdicio, $PlaPropietari) {
                                         INNER JOIN profesores_has_asignaturas ON profesores_has_asignaturas.asignaturas_idAsignaturas = asignaturas.idAsignaturas
                                         WHERE resultats.nomEdicio = :nomEdicio 
                                         AND resultats.PlaPropietari = :PlaPropietari 
-                                        AND departamentos_has_profesores.Departamentos_idDepartamentos =:idDept
+                                        AND profesores_has_asignaturas.profesores_niu  =:niu
                                         ORDER BY asignaturas.nombre ASC
 
                                         ");

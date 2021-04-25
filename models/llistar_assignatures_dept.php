@@ -10,7 +10,6 @@ function llistar_assignatures_dept($connection, $idDept,$nomEdicio, $PlaPropieta
                                         WHERE resultats.nomEdicio = :nomEdicio
                                         AND departamentos_has_profesores.Departamentos_idDepartamentos =:idDept
                                         ORDER BY asignaturas.nombre ASC
-
                                         ");
             $parametros = [
                 'idDept' => $idDept,

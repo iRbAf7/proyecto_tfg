@@ -60,6 +60,15 @@ if (isset($_SESSION['niu']) ) {
                 }
             }
         }
+        if(isset($_SESSION['lista_asigs_profes']))
+        {
+            $count = 0;
+            for ($i =0;$i < sizeof($_SESSION['lista_asigs_profes']) ;$i++) {
+                if($_SESSION['lista_asigs_profes'][$i]['Assignatura'] == $assignatura){
+                    $count++;
+                }
+            }
+        }
 
         $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$assignatura");
         $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$assignatura");
