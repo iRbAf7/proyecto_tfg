@@ -14,21 +14,14 @@ require_once("models/consulta_graus_centres.php");
 require_once("models/consulta_graus_departaments.php");
 require_once("models/consulta_graus_profes.php");
 
-
-
-
-
 if (isset($_SESSION['niu'])){
     $result_llistar_models = llistar_models(connection());
-
     $idAmbito_defecto = comprobar_idAmbito_defecto(connection(),$_SESSION['ambito_defecto']);
     $_SESSION['permiso_defecto'] = comprobar_permiso_defecto(connection(),$idAmbito_defecto[0]['idAmbitos'],$result_llistar_models[0]['Objeto_idObjeto']);
     $_SESSION['permiso_ambito'] = comprobar_permiso_ambito(connection(),$_SESSION['ambit_selec'],$result_llistar_models[0]['Objeto_idObjeto']);
 
     $result_llistar_versions = llistar_versions(connection());
     $result_llistar_edicions = llistar_edicions(connection());
-    //$result_llistar_pla = llistar_pla(connection());
-
 
     if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] == "ninguno"){
         $result_llistar_models = "";
@@ -38,7 +31,6 @@ if (isset($_SESSION['niu'])){
         $result_llistar_pla = "";
         $sin_permisos = "No te permisos per visualitzar cap enquesta.";
     }else{
-
         switch ($_SESSION['ambit_selec']){
             case 'Estudis':
                 if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
@@ -142,9 +134,6 @@ if (isset($_SESSION['niu'])){
                 $result_llistar_pla = llistar_pla(connection());
                 break;
         }
-
-
-
     }
 
     if (isset($_POST['nom_model'])) {

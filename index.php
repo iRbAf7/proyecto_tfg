@@ -15,6 +15,9 @@ switch ($action) {
     case 'info_usuario':
         include __DIR__.'/info_usuario.php';
         break;
+    case 'comparar_enquestes':
+        include __DIR__.'/comparar_enquestes.php';
+        break;
     case 'logout':
         include __DIR__.'/logout.php';
         break;
