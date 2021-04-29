@@ -6,9 +6,13 @@ function visitPage(){
 }
 $(document).ready(function (){
 
+    /*$('#comparar').on('click', function() {
+        $("#show_table").load('index.php?action=tabla_compare');
+        return false;
+    });*/
     $(document).on("click", '#comparar',function () {
         $.ajax({
-            url:"views/tabla_compare.php",
+            url:"/silvia_visor_encuestas_v2/index.php?action=tabla_compare",
             method: "POST",
             data:$("#asig_to_compare").serialize(),
             success:function(res){
