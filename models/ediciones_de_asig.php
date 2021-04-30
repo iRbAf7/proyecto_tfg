@@ -1,7 +1,7 @@
 <?php
 function ediciones_de_asig($connection, $idAsignatura){
     try {
-        $ediciones = $connection->prepare("SELECT DISTINCT edicions.descripcio
+        $ediciones = $connection->prepare("SELECT DISTINCT edicions.nom,edicions.descripcio
                                             FROM resultats INNER JOIN edicions ON resultats.nomEdicio = edicions.nom
                                             WHERE resultats.Assignatura ='$idAsignatura'");
 
