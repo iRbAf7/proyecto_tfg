@@ -4,9 +4,11 @@ if(!empty($res)){
 
     if ($cargo){
         echo "<div class='logger logger-login' role='alert'> Àmbit: " ;
+        echo "<ul>";
         foreach ($ambitos as $ambito){
-            echo "<li> ".$ambito."</li>";
+            echo "<li>".$ambito."</li>";
         }
+        echo "</ul>";
 
         echo "Càrrecs:";
         echo "<li>".$cargo[0]['descripcion']."</li></div>";

@@ -9,8 +9,15 @@ require_once("models/nom_versio.php");
 require_once("models/nom_edicio.php");
 
 if (isset($_SESSION['niu']) ) {
-    if (isset($_SESSION['form']) && $_SESSION['permiso_ambito'] != "ninguno") {
+    if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] == "ninguno") {
 
+        $message = "No te permisos per visualitzar cap enquesta.";
+        echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+        header("Refresh:4; url=/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta");
+
+    } else {
+
+        if (isset($_SESSION['form'])){
         $model = $_SESSION['form'][0];
         $versio = $_SESSION['form'][1];
         $edicio = $_SESSION['form'][2];
@@ -39,7 +46,7 @@ if (isset($_SESSION['niu']) ) {
          * muestra cuando solo se han de mostrar de los correspondientes, en el caso
          * del ambito departamento solo seran aquellos que hayan profesores del departamento en cuestion
          * */
-        if(($_SESSION['ambit_selec'] == 'Departaments' || $_SESSION['ambit_selec'] == 'Professors') && isset($_SESSION['permiso_superior'])){
+        if(($_SESSION['ambit_selec'] == 'Departaments' || $_SESSION['ambit_selec'] == 'Professors') && isset($_SESSION['in'])){//isset($_SESSION['permiso_superior'])){
             if($_SESSION['permiso_superior'] == $_SESSION['permiso_ambito']){
                 if ($_SESSION['ambit_selec'] == 'Departaments'){
                     $result_llistar_assignatures = $_SESSION['asigs_dept'];
@@ -67,16 +74,11 @@ if (isset($_SESSION['niu']) ) {
             unset($_SESSION["id_assig"]);
             require("views/escollir_assignatura.php");
         }
-    } else {
-        if ($_SESSION['permiso_ambito'] == "ninguno")
-        {
-            $message = "No te permisos per visualitzar cap enquesta.";
         }else{
             $message = "Cal especificar l'enquesta. Serà redirigit en pocs segons.";
+            echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+            header("Refresh:4; url=/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta");
         }
-
-        echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
-        header("Refresh:4; url=/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta");
     }
 } else {
     require("c_login.php");

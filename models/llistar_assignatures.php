@@ -2,15 +2,25 @@
 function llistar_assignatures($connection, $nomEdicio, $PlaPropietari) {
     try {
         if ($PlaPropietari != "0"){
-            $query = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+            if ($nomEdicio == ""){
+                $query = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+                                        FROM asignaturas INNER JOIN resultats ON resultats.Assignatura = asignaturas.idAsignaturas
+                                        AND resultats.PlaPropietari = :PlaPropietari 
+                                        ORDER BY asignaturas.nombre ASC");
+                $parameters = [
+                    'PlaPropietari' => $PlaPropietari,
+                ];
+            }else {
+                $query = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
                                         FROM asignaturas INNER JOIN resultats ON resultats.Assignatura = asignaturas.idAsignaturas
                                         WHERE resultats.nomEdicio = :nomEdicio 
                                         AND resultats.PlaPropietari = :PlaPropietari 
                                         ORDER BY asignaturas.nombre ASC");
-            $parameters = [
-              'nomEdicio' => $nomEdicio,
-              'PlaPropietari' => $PlaPropietari,
-            ];
+                $parameters = [
+                    'nomEdicio' => $nomEdicio,
+                    'PlaPropietari' => $PlaPropietari,
+                ];
+            }
         }else{
             $query = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
                                         FROM asignaturas INNER JOIN resultats ON resultats.Assignatura = asignaturas.idAsignaturas 

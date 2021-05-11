@@ -42,14 +42,26 @@
             <label class="control-label col-sm-2" for="pla_estudis">Pla d'estudis: </label>
             <div class="col-sm-10">
                 <select name="pla_estudis" id="pla_estudis" class="form-control">
+                    <?php if (isset($_SESSION['in']) ){//&& $_SESSION['ambit_selec'] == 'Professors'){?>
+                    <?php for ($i = 0 ;$i<sizeof($_SESSION['result_llistar_pla']);$i++){//foreach ( $_SESSION['result_llistar_pla'] as $pla): ?>
+                    <option value="<?php echo $_SESSION['result_llistar_pla'][$i]['idEstudio'];?>">
+                        <?php echo htmlentities($_SESSION['result_llistar_pla'][$i]['nombre']);?></option>
+                    <?php }
+                    //endforeach; ?>
+
+                    <?php }else{
+                        ?>
                     <option value="0"><?php
                         if (!isset($sin_permisos)){
                             echo "Tots" ;
                         }
                         ?></option>
-                    <?php foreach ($result_llistar_pla as $pla): ?>
-                        <option value="<?php echo $pla['idEstudio'];?>"><?php echo htmlentities($pla['nombre']);?></option>
-                    <?php endforeach; ?>
+                    <?php ?>
+                   <?php for ($i = 0 ;$i<sizeof($_SESSION['result_llistar_pla']);$i++){//foreach ( $_SESSION['result_llistar_pla'] as $pla): ?>
+                        <option value="<?php echo $_SESSION['result_llistar_pla'][$i]['idEstudio'];?>">
+                            <?php echo htmlentities($_SESSION['result_llistar_pla'][$i]['nombre']);?></option>
+                    <?php }
+                    }//endforeach; ?>
                 </select>
             </div>
         </div>
@@ -60,4 +72,20 @@
         </div>
 
     </form>
+
+    <!--<div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Action
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+        </div>
+    </div>-->
+    <br>
+    <br>
+    <br><br><br><br><br>
 </div>

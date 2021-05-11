@@ -1,7 +1,7 @@
 <?php
 function consultarAsigsUser($conexion,$niu){
     try{
-        $consultar_asigs_profesores = $conexion->prepare("SELECT *  
+        $consultar_asigs_profesores = $conexion->prepare("SELECT DISTINCT asignaturas.nombre, asignaturas.idAsignaturas
                                                 FROM profesores_has_asignaturas INNER JOIN asignaturas 
                                                 ON profesores_has_asignaturas.asignaturas_idAsignaturas = asignaturas.idAsignaturas
                                                 WHERE profesores_has_asignaturas.profesores_niu = :niu");

@@ -16,7 +16,22 @@ function llistar_assignatures_dept($connection, $idDept,$nomEdicio, $PlaPropieta
                 'nomEdicio' => $nomEdicio,
             ];
         }else{
-            $graus_dept = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+            if($nomEdicio == ""){
+                $graus_dept = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+                                        FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
+                                        INNER JOIN profesores_has_asignaturas ON profesores_has_asignaturas.asignaturas_idAsignaturas = asignaturas.idAsignaturas
+                                        INNER JOIN profesores ON profesores.niu = profesores_has_asignaturas.profesores_niu 
+                                        INNER JOIN departamentos_has_profesores ON departamentos_has_profesores.Profesores_niu = profesores.niu
+                                        AND resultats.PlaPropietari = :PlaPropietari 
+                                        AND departamentos_has_profesores.Departamentos_idDepartamentos =:idDept
+                                        ORDER BY asignaturas.nombre ASC
+                                        ");
+                $parametros = [
+                    'idDept' => $idDept,
+                    'PlaPropietari' => $PlaPropietari,
+                ];
+            }else {
+                $graus_dept = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
                                         FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
                                         INNER JOIN profesores_has_asignaturas ON profesores_has_asignaturas.asignaturas_idAsignaturas = asignaturas.idAsignaturas
                                         INNER JOIN profesores ON profesores.niu = profesores_has_asignaturas.profesores_niu 
@@ -27,11 +42,12 @@ function llistar_assignatures_dept($connection, $idDept,$nomEdicio, $PlaPropieta
                                         ORDER BY asignaturas.nombre ASC
 
                                         ");
-            $parametros = [
-                'idDept' => $idDept,
-                'nomEdicio' => $nomEdicio,
-                'PlaPropietari' => $PlaPropietari,
-            ];
+                $parametros = [
+                    'idDept' => $idDept,
+                    'nomEdicio' => $nomEdicio,
+                    'PlaPropietari' => $PlaPropietari,
+                ];
+            }
         }
 
 
