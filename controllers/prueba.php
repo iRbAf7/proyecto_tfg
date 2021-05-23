@@ -2,8 +2,8 @@
 session_start();
 function connection() {
     $server = "localhost"; $user = "root"; $password = "12345"; $database = "permisos_encuestas";
+    $connection = new PDO("mysql:host=$server;dbname=$database;charset=UTF8", $user, $password);
     try{
-        $connection = new PDO("mysql:host=$server;dbname=$database;charset=UTF8", $user, $password);
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }catch(PDOException $e){
         echo "Error: " . $e->getMessage();
@@ -185,7 +185,6 @@ if (isset($_POST['id'])){
     }
 
     if(($_SESSION['ambit_selec'] == 'Departaments' || $_SESSION['ambit_selec'] == 'Professors') && isset($_SESSION['in'])){
-
         if($_SESSION['permiso_superior'] == $_SESSION['permiso_ambito']){
             if ($_SESSION['ambit_selec'] == 'Departaments'){
                 $llista_asignatures = $_SESSION['asigs_dept'];

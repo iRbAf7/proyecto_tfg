@@ -1,6 +1,6 @@
 <?php
 function consulta_graus_centres($connection, $idCentro) {
-    try {
+    try {//no hacia falta modificar
         $graus_centres = $connection->prepare("SELECT DISTINCT estudios.idEstudio,estudios.nombre 
                                         FROM resultats INNER JOIN estudios ON resultats.PlaPropietari = estudios.idEstudio
                                         WHERE  estudios.Centros_idCentros =:idCentro

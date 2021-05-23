@@ -43,10 +43,12 @@
             <div class="col-sm-10">
                 <select name="pla_estudis" id="pla_estudis" class="form-control">
                     <?php if (isset($_SESSION['in']) ){//&& $_SESSION['ambit_selec'] == 'Professors'){?>
-                    <?php for ($i = 0 ;$i<sizeof($_SESSION['result_llistar_pla']);$i++){//foreach ( $_SESSION['result_llistar_pla'] as $pla): ?>
+                    <?php
+                        for ($i = 0 ;$i<sizeof($_SESSION['result_llistar_pla']);$i++){//foreach ( $_SESSION['result_llistar_pla'] as $pla): ?>
                     <option value="<?php echo $_SESSION['result_llistar_pla'][$i]['idEstudio'];?>">
                         <?php echo htmlentities($_SESSION['result_llistar_pla'][$i]['nombre']);?></option>
                     <?php }
+
                     //endforeach; ?>
 
                     <?php }else{
@@ -61,9 +63,15 @@
                         <option value="<?php echo $_SESSION['result_llistar_pla'][$i]['idEstudio'];?>">
                             <?php echo htmlentities($_SESSION['result_llistar_pla'][$i]['nombre']);?></option>
                     <?php }
-                    }//endforeach; ?>
-                </select>
+                    }//endforeach;
+
+                     ?>
+                </select><br>
+                <?php if(empty($_SESSION['result_llistar_pla'])){
+                    echo "<div class='alert alert-danger' role='alert'> Amb aquest perfil, no hi ha cap pla disponible per visualitzar.</div>" ;
+                }?>
             </div>
+
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

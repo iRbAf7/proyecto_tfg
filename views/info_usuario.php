@@ -4,11 +4,11 @@ if(!empty($res)){
 
     if ($cargo){
         echo "<div class='logger logger-login' role='alert'> Àmbit: " ;
-        echo "<ul>";
+        //echo "<ul>";
         foreach ($ambitos as $ambito){
             echo "<li>".$ambito."</li>";
         }
-        echo "</ul>";
+        //echo "</ul>";
 
         echo "Càrrecs:";
         echo "<li>".$cargo[0]['descripcion']."</li></div>";
@@ -24,7 +24,7 @@ if(!empty($res)){
     if ($asigs){
         echo "<div class='logger logger-login' role='alert'> Assignatures: <br>" ;
         foreach ($asigs as $asig){
-            echo "<li>".$asig['nombre']." - ".$asig['idAsignaturas']."</li>";
+            echo "<li>".$asig['nombre']." - ".$asig['idAsignaturas']." - (".$asig['anio_inicio'].")</li>";
         }echo "</div>";
     }else{
         echo "<div class='logger logger-login' role='alert'> No dóna cap asignatura. </div>" ;

@@ -1,7 +1,8 @@
 <?php
 function participacio_grup($connection, $nomEdicio, $Assignatura, $Grup) {
     try {
-        $query = $connection->prepare("SELECT COUNT(*) AS '0' FROM resultats WHERE nomEdicio = :nomEdicio AND Assignatura = :Assignatura AND Grup = :Grup");
+        $query = $connection->prepare("SELECT COUNT(*) AS '0'
+FROM resultats WHERE nomEdicio = :nomEdicio AND Assignatura = :Assignatura AND Grup = :Grup");
         $parameters = [
             'nomEdicio' => $nomEdicio,
             'Assignatura' => $Assignatura,

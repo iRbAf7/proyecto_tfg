@@ -1,5 +1,5 @@
 <?php
-function matriculats($connection, $anio,$nomEdicio, $PlaPropietari, $Assignatura) {
+function matriculats_segons_profe($connection, $anio,$nomEdicio, $PlaPropietari,$niu_profe, $Assignatura) {
     try {//updated
         $query = $connection->prepare("SELECT SUM(ocupacion) AS '0' 
                                         FROM 
@@ -11,12 +11,16 @@ function matriculats($connection, $anio,$nomEdicio, $PlaPropietari, $Assignatura
                                             INNER JOIN grupo_has_asignaturas 
                                             ON result.Grup = grupo_has_asignaturas.Grupo_idGrupo
                                             AND result.Assignatura = grupo_has_asignaturas.Asignaturas_idAsignaturas
-                                            WHERE  grupo_has_asignaturas.anio_inicio =:anio   ) AS subquery");
-                                    //se ha modificado, se ha añadido el parametro anio de la edicion
+                                            INNER JOIN profesores_has_grupo 
+                                            ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id
+                                            WHERE  grupo_has_asignaturas.anio_inicio =:anio  
+                                              AND  profesores_has_grupo.Profesores_niu = :niu_profe ) AS subquery");
+                            //se ha modificado, se ha añadido el parametro anio de la edicion
         $parameters = [
             'nomEdicio' => $nomEdicio,
             'PlaPropietari' => $PlaPropietari,
             'Assignatura' => $Assignatura,
+            'niu_profe' => $niu_profe,
             'anio' => $anio,
         ];
         $query->execute($parameters);

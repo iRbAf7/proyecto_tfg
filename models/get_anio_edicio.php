@@ -1,11 +1,13 @@
 <?php
-function grups_totals($connection, $nomEdicio, $Assignatura) {
+function get_anio_edicio($connection, $nomEdicio) {
     try {
-        $query = $connection->prepare("SELECT DISTINCT Grup AS '0' 
-FROM resultats WHERE nomEdicio = :nomEdicio AND Assignatura = :Assignatura");
+        $query = $connection->prepare("SELECT anio_inicio
+                                        FROM edicions
+                                        WHERE nom =:nomEdicio
+                                            ");
         $parameters = [
             'nomEdicio' => $nomEdicio,
-            'Assignatura' => $Assignatura,
+
         ];
         $query->execute($parameters);
         $results = $query->fetchAll(PDO::FETCH_ASSOC);

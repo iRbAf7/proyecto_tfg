@@ -26,6 +26,7 @@
         <small class="text-muted"><strong>Grup: </strong></small><small><?php echo $grup ?></small><br>
     </div>
     <br>
+    <?php if (sizeof($llista_grups) > 1){?>
     <h6 class="border-bottom border-gray pb-2 mb-0">Especifica un grup</h6>
     <div style="padding: 15px;">
         <form action="index.php?action=res&ve=<?php echo $versio ?>&ed=<?php echo $edicio ?>&pla=<?php echo $pla ?>&as=<?php echo $assignatura ?>" method="post">
@@ -38,6 +39,7 @@
             <button type="submit" id="submit" class="btn btn-default">Actualitzar</button>
         </form>
     </div>
+    <?php }?>
     <br>
     <h6 class="border-bottom border-gray pb-2 mb-0">Participació</h6>
     <div style="padding: 15px;">
@@ -148,6 +150,11 @@
     if ($_SESSION['grup'] != NULL) {
         $mitjana4 = mitjana_grup(connection(), 'AssigG04',"$edicio","$assignatura", "$grup");
     }
+
+    //tengo pensado hacer que estas tres condiciones  esten dentro de un if
+    //el cual el acceso es para los demas mientras que el else sea solo cuando
+    //sea para profes en concreto, cuando los permisos sean defecto=ninguno y el de ambito!=ninguno
+    //por lo que hara falta crear otro metodo como el de mitjana_grup pero pasandole tambien como paramtro el niu del profe
     ?>
     <br>
 

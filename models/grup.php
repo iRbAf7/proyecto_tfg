@@ -2,7 +2,10 @@
 function grups($connection, $nomEdicio, $PlaPropietari, $Assignatura) {
     try {
         $query = $connection->prepare("SELECT DISTINCT Grup AS '0' 
-                                        FROM resultats WHERE nomEdicio = :nomEdicio AND Assignatura = :Assignatura AND PlaPropietari = :PlaPropietari");
+                                        FROM resultats
+                    WHERE nomEdicio = :nomEdicio 
+                    AND Assignatura = :Assignatura 
+                    AND PlaPropietari = :PlaPropietari");
         $parameters = [
             'nomEdicio' => $nomEdicio,
             'PlaPropietari' => $PlaPropietari,

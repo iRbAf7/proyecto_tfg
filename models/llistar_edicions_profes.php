@@ -41,19 +41,22 @@ function llistar_edicions_profes($connection, $niu) {
 }*/
 
 function llistar_edicions_profes($connection, $niu) {
-    try{
-        /*$check_edicions = $connection->prepare("SELECT DISTINCT edicions.nom, edicions.descripcio
-                                                FROM edicions INNER JOIN resultats ON edicions.nom = resultats.nomEdicio
-                                                INNER JOIN profesores_has_asignaturas ON profesores_has_asignaturas.asignaturas_idAsignaturas = resultats.Assignatura
-                                                INNER JOIN anio ON anio.inicio = profesores_has_asignaturas.anio_inicio
-                                                WHERE profesores_has_asignaturas.profesores_niu = $niu
-                                                ");*/
-        $check_edicions = $connection->prepare("SELECT DISTINCT edicions.nom, edicions.descripcio
+    try{//updated
+        $check_edicions = $connection->prepare("SELECT DISTINCT edicions.nom, edicions.descripcio, edicions.anio_inicio
+FROM edicions INNER JOIN resultats ON edicions.nom = resultats.nomEdicio
+INNER JOIN grupo_has_asignaturas ON grupo_has_asignaturas.Asignaturas_idAsignaturas = resultats.Assignatura
+AND grupo_has_asignaturas.anio_inicio = edicions.anio_inicio
+INNER JOIN profesores_has_grupo ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id
+WHERE profesores_has_grupo.Profesores_niu = $niu
+                                                ");
+
+        /*
+         * SELECT DISTINCT edicions.nom, edicions.descripcio, edicions.anio_inicio
 FROM edicions INNER JOIN resultats ON edicions.nom = resultats.nomEdicio
 INNER JOIN profesores_has_asignaturas ON profesores_has_asignaturas.asignaturas_idAsignaturas = resultats.Assignatura
 AND profesores_has_asignaturas.anio_inicio = edicions.anio_inicio
 WHERE profesores_has_asignaturas.profesores_niu = $niu
-                                                ");
+         * */
         $check_edicions->execute();
         $result_edicions = $check_edicions->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $e){

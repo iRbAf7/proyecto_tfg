@@ -8,7 +8,7 @@ require_once("models/consultarAsigsUser.php");
 if (isset($_POST['ambit_selec'])){
     $_SESSION['ambit_selec']= $_POST['ambit_selec'];
     $_SESSION['ambito_defecto']='Estudiant';
-    header("Refresh: 0; url=/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta");
+    header("Refresh: 0; url=/silvia_visor_encuestas_v2_1/index.php?action=especifica_enquesta");
 }else{
     $res = niu_existent(connection(), $_SESSION['niu']);
     if(!empty($res)){

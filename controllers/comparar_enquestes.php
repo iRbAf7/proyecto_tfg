@@ -15,7 +15,7 @@ if (isset($_SESSION['niu']) ) {
         }*/
         $message = "No te permisos per visualitzar cap enquesta.";
         echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
-        header("Refresh:3; url=/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta");
+        header("Refresh:3; url=/silvia_visor_encuestas_v2_1/index.php?action=especifica_enquesta");
 
     } else {
         $model_compare = llistar_models(connection());

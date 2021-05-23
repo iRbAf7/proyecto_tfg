@@ -147,15 +147,17 @@ if (isset($_SESSION['niu'])){
         }
         $nom_model = $_POST['nom_model'];
         array_push($_SESSION['form'], $nom_model);
+
         $nom_versio = $_POST['nom_versio'];
         array_push($_SESSION['form'],$nom_versio);
+
         $nom_edicio = $_POST['nom_edicio'];
         array_push($_SESSION['form'], $nom_edicio);
 
         $pla_estudis = $_POST['pla_estudis'];
         array_push($_SESSION['form'], $pla_estudis);
 
-        header("Refresh: 0; url=/silvia_visor_encuestas_v2/index.php?action=escollir_assignatura");
+        header("Refresh: 0; url=/silvia_visor_encuestas_v2_1/index.php?action=escollir_assignatura");
     } else {
         unset($_SESSION["form"]);
         if (isset($_SESSION['id_assig'])){
@@ -166,5 +168,5 @@ if (isset($_SESSION['niu'])){
 }else{
     $message = "Cal iniciar sessió. Serà redirigit en pocs segons.";
     echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
-    header("Refresh:3; url=/silvia_visor_encuestas_v2/index.php?action=login");
+    header("Refresh:3; url=/silvia_visor_encuestas_v2_1/index.php?action=login");
 }

@@ -1,10 +1,17 @@
 <?php
-function matriculats_grup($connection, $Assignatura, $Grupo_idGrupo) {
-    try {
-        $query = $connection->prepare("select sum(ocupacion) AS '0' FROM (SELECT ocupacion FROM grupo_has_asignaturas WHERE Asignaturas_idAsignaturas = :Assignatura AND Grupo_idGrupo = :Grupo_idGrupo) AS subquery");
+function matriculats_grup($connection, $Assignatura,$anio, $Grupo_idGrupo) {
+    try {//updated
+        $query = $connection->prepare("select sum(ocupacion) AS '0' FROM (
+                                        SELECT ocupacion 
+                                        FROM grupo_has_asignaturas 
+                                        WHERE Asignaturas_idAsignaturas = :Assignatura 
+                                          AND Grupo_idGrupo = :Grupo_idGrupo
+                                          AND anio_inicio = :anio) AS subquery");
+        //se ha modificado, se ha añadido el parametro anio del grupo
         $parameters = [
             'Assignatura' => $Assignatura,
-            'Grupo_idGrupo' => $Grupo_idGrupo
+            'Grupo_idGrupo' => $Grupo_idGrupo,
+            'anio' => $anio
         ];
         $query->execute($parameters);
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
