@@ -50,7 +50,7 @@
     <br>
 
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[0]['numero'] ?>. <?php echo $preguntes[0]['enunciat'] ?></h6>
-    <div>
+    <div><!--       Pregunta 1                              -->
         <br>
         <?php
         if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
@@ -79,7 +79,7 @@
 
 
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[1]['numero'] ?>. <?php echo $preguntes[1]['enunciat'] ?></h6>
-    <div>
+    <div><!--                             Pregunta 2                              -->
         <?php
         if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
@@ -108,7 +108,7 @@
 
 
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[2]['numero'] ?>. <?php echo $preguntes[2]['enunciat'] ?></h6>
-    <div>
+    <div><!--                             Pregunta 3                              -->
         <?php
         if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
@@ -137,6 +137,7 @@
 
 
     <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[3]['numero'] ?>. <?php echo $preguntes[3]['enunciat'] ?></h6>
+    <!--                             Pregunta 4                              -->
     <?php
     require_once("models/calcul_mitjana.php");
     require_once("models/mitjana_total.php");

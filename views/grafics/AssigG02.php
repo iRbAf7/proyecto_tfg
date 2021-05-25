@@ -42,6 +42,8 @@
         return item['resposta'];
     });
 
+    console.log(data3);
+    console.log(totalresults);
     cat = [
         'Pràcticament nul·la (<25%)',
         'Baixa (25-50%)',
@@ -68,6 +70,8 @@
             }
         }
     }
+
+    console.log(sourceCount2);
 
     for (i = 0; i < totalresults.length; i++) {
         for (j = 0; j < sourceCount2.length; j++) {

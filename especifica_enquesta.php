@@ -20,6 +20,9 @@
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+    <!--<link href="css/boot/css/bootstrap.css" rel="stylesheet">
+     <script src="css/boot/js/bootstrap.js"></script>//aded-->
+
     <!-- JavaScript -->
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/functions.js"></script>
