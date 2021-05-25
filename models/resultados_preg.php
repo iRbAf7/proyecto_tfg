@@ -1,5 +1,5 @@
 <?php
-function resultados_preg($connection, $AssigGXX, $nomEdicio, $Assignatura) {
+function resultados_preg($connection, $AssigGXX,$PlaPropietari, $nomEdicio, $Assignatura) {
     try {
         $query = $connection->prepare("SELECT resposta, ROUND((totalAlumnes/(SELECT SUM(totalAlumnes) FROM
             (
@@ -7,7 +7,7 @@ function resultados_preg($connection, $AssigGXX, $nomEdicio, $Assignatura) {
                 FROM (
                     SELECT $AssigGXX
                     FROM resultats
-                    WHERE nomEdicio = :nomEdicio AND Assignatura = :Assignatura AND $AssigGXX <> ''
+                    WHERE nomEdicio = :nomEdicio AND PlaPropietari = :PlaPropietari AND Assignatura = :Assignatura AND $AssigGXX <> ''
                     ) AS subquery
                 GROUP BY $AssigGXX
             ) AS result)*100)) AS totalAlumnes
@@ -16,13 +16,14 @@ function resultados_preg($connection, $AssigGXX, $nomEdicio, $Assignatura) {
                 FROM (
                     SELECT $AssigGXX
                     FROM resultats
-                    WHERE nomEdicio = :nomEdicio AND Assignatura = :Assignatura AND $AssigGXX <> ''
+                    WHERE nomEdicio = :nomEdicio AND PlaPropietari = :PlaPropietari  AND Assignatura = :Assignatura AND $AssigGXX <> ''
                 ) AS subquery
             GROUP BY $AssigGXX)
             AS result");
 
         $parameters = [
             'nomEdicio' => $nomEdicio,
+            'PlaPropietari' => $PlaPropietari,
             'Assignatura' => $Assignatura,
         ];
         $query->execute($parameters);

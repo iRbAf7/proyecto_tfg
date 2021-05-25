@@ -11,3 +11,118 @@
     border-color: #858ea5
 }
 
+table{
+    border-radius: 100px;
+}
+tr > th{
+    width: 8.3%;
+}
+tr,th,td{
+    text-align: center;
+    vertical-align: center;
+    border: 1px solid #000000;
+    padding: 10px;
+}
+
+thead > tr > th{
+    background-color: #971244;
+    color: #ffffff;
+}
+
+/*
+de un videoooooo de dropdown
+.navegacion{
+    width: 100%;
+    margin: 30px auto;
+    background: #971244;
+}
+
+.navegacion ul{
+    list-style: none;
+}
+
+.menu > li{
+    border: 1px solid #000000;
+    position: relative;
+    display: inline-block;
+    width: 10%;
+    padding: 10px;
+}
+
+.menu > li > a{
+    display: block;
+    color: #fff!important;
+    text-decoration: none;
+}
+
+.menu li a:hover{
+    transition: all .3s;
+}
+
+
+
+.submenu{
+    position: absolute;
+    background: #333333;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0s;
+}
+.submenu li{
+    width: 100%;
+}
+
+.submenu li a{
+    display: block;
+    color: #fff!important;
+    text-decoration: none;
+}
+
+.menu li:hover .submenu{
+    visibility: visible;
+    opacity: 1;
+}*/
+
+
+
+.header{
+    margin: auto;
+    width: 100%;
+
+}
+
+/*.header > ul, li{*/
+.header > .navi > li{
+    list-style: none;
+}
+
+
+.navi li {
+    border: 1px solid #000000;
+    background-color: #971244;
+    color: #ffffff;
+    padding: 10px 15px;
+    display: block;
+}
+.navi li ul li{
+    background-color: #434343;
+    position: relative;
+    width: 120px;
+}
+.navi li:hover{
+    background-color: #434343;
+    cursor: pointer;
+}
+.navi > li{
+    float: left;
+}
+
+.navi li ul{
+    display: none;
+    position: absolute;
+
+}
+.navi li:hover > ul{
+    display: block;
+}

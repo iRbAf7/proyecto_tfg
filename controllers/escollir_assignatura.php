@@ -54,7 +54,6 @@ if (isset($_SESSION['niu']) ) {
 
                     $result_llistar_assignatures = $_SESSION['asigs_dept'];
                 }else{//en caso de Professor
-                    var_dump("entro aquiiii");
                     $result_llistar_assignatures = $_SESSION['lista_asigs_profes'];
                 }
             }else{

@@ -167,8 +167,8 @@ if (isset($_SESSION['niu']) ) {
             }
 
             if ($_SESSION['grup'] != NULL) {
-                $participacio = participacio_grup(connection(), "$edicio", "$assignatura", "$grup");
                 $matriculats = matriculats_grup(connection(), "$assignatura", $anio_edicio[0]['anio_inicio'], "$grup");
+                $participacio = participacio_grup(connection(), "$edicio", "$assignatura", "$grup");
             }
 
             if ($matriculats[0][0] != NULL) {
