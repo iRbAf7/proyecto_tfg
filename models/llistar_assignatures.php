@@ -11,6 +11,7 @@ function llistar_assignatures($connection, $nomEdicio, $PlaPropietari) {
                     'PlaPropietari' => $PlaPropietari,
                 ];
             }else {
+
                 $query = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
                                         FROM asignaturas INNER JOIN resultats ON resultats.Assignatura = asignaturas.idAsignaturas
                                         WHERE resultats.nomEdicio = :nomEdicio 

@@ -19,7 +19,7 @@ switch ($action) {
         include __DIR__.'/comparar_enquestes.php';
         break;
     case 'tabla_compare':
-        include __DIR__.'/controllers/tabla_compare.php';
+        include __DIR__.'/tabla_compare.php';
         break;
     case 'logout':
         include __DIR__.'/logout.php';

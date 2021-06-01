@@ -20,21 +20,21 @@
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-
+    <!--<link href="css/boot/css/bootstrap.css" rel="stylesheet">
+     <script src="css/boot/js/bootstrap.js"></script>//aded-->
 
     <!-- JavaScript -->
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/functions.js"></script>
-
 </head>
 <body class="bg-light">
 <?php include __DIR__ . "/resources/title.html"; ?>
 
-<?php include __DIR__ . "/resources/navigator.php";
+<?php //include __DIR__ . "/resources/navigator.php";
 //include __DIR__ . "/resources/navigator.html"; ?>
 
 <div class="container">
-    <?php include __DIR__ . "/controllers/comparar_enquestes.php"; ?>
+    <?php include __DIR__ . "/controllers/tabla_compare.php"; ?>
 </div>
 
 <?php include __DIR__ . "/resources/footer.html"; ?>

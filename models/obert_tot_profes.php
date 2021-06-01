@@ -1,5 +1,5 @@
 <?php
-function obert_tot_profes($connection, $AssigGXX, $niu,$pla,$nomEdicio, $Assignatura) {
+function obert_tot_profes($connection, $anio,$AssigGXX, $niu,$pla,$nomEdicio, $Assignatura) {
     try {
         $query = $connection->prepare("
                             SELECT resultats.$AssigGXX AS '0'
@@ -10,13 +10,15 @@ WHERE resultats.nomEdicio = :nomEdicio
 and resultats.Assignatura = :Assignatura
 and resultats.$AssigGXX <> ''
 AND profesores_has_grupo.Profesores_niu = :niu
-AND grupo_has_asignaturas.estudio_id = :pla");
+AND grupo_has_asignaturas.estudio_id = :pla
+AND grupo_has_asignaturas.anio_inicio=:anio");
 
         $parameters = [
             'nomEdicio' => $nomEdicio,
             'Assignatura' => $Assignatura,
             'niu' => $niu,
-            'pla' => $pla
+            'pla' => $pla,
+            'anio' => $anio,
         ];
         $query->execute($parameters);
         $result_data = $query->fetchAll(PDO::FETCH_ASSOC);

@@ -1,7 +1,7 @@
 <?php
 session_start();
 function connection() {
-    $server = "localhost"; $user = "root"; $password = "12345"; $database = "permisos_encuestas";
+    $server = "localhost"; $user = "root"; $password = "12345"; $database = "v2_permisos_encuestas";
     $connection = new PDO("mysql:host=$server;dbname=$database;charset=UTF8", $user, $password);
     try{
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -174,15 +174,15 @@ if (isset($_POST['id'])){
     //require_once("models/llistar_asigs_profes.php");
     //require_once("models/llistar_assignatures.php");
     $pla = $_POST['id'];
-    //var_dump($pla);
+    var_dump($pla);
     if($_SESSION['ambit_selec'] == 'Departaments' || isset($_SESSION['entra_dept']))
     {
         $_SESSION['asigs_dept'] = llistar_assignatures_dept(connection(),$_SESSION['idEnAmbito'],"", "$pla");
     }
     if($_SESSION['ambit_selec'] == 'Professors' || isset($_SESSION['entra_profes']))
     {
-        $_SESSION['lista_asigs_profes'] = llistar_asigs_profes(connection(),$_SESSION['niu'] ,"", "$pla");
 
+        $_SESSION['lista_asigs_profes'] = llistar_asigs_profes(connection(),$_SESSION['niu'] ,"", $pla);
     }
 
     if(($_SESSION['ambit_selec'] == 'Departaments' || $_SESSION['ambit_selec'] == 'Professors') && isset($_SESSION['in'])){
@@ -196,10 +196,11 @@ if (isset($_POST['id'])){
             $llista_asignatures = llistar_assignatures(connection(), "", "$pla");
         }
     }else{
-        //var_dump("jijiji");
+
         $llista_asignatures = llistar_assignatures(connection(), "", "$pla");
     }
     $html = '';
+
     foreach ($llista_asignatures as $assignatures){
         //var_dump($llista_asignatures);
         $html .= "<option value='".$assignatures['Assignatura']."'>".$assignatures['nombre']."</option>";

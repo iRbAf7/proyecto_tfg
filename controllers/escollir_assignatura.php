@@ -18,6 +18,7 @@ if (isset($_SESSION['niu']) ) {
     } else {
 
         if (isset($_SESSION['form'])){
+
         $model = $_SESSION['form'][0];
         $versio = $_SESSION['form'][1];
         $edicio = $_SESSION['form'][2];
@@ -37,12 +38,13 @@ if (isset($_SESSION['niu']) ) {
         {
             $_SESSION['asigs_dept'] = llistar_assignatures_dept(connection(),$_SESSION['idEnAmbito'],"$edicio", "$pla");
         }
+
         if($_SESSION['ambit_selec'] == 'Professors' || isset($_SESSION['entra_profes']))
         {
 
             $_SESSION['lista_asigs_profes'] = llistar_asigs_profes(connection(),$_SESSION['niu'] ,"$edicio", "$pla");
-
         }
+
         /*
          * Estas condiciones se comprueban porque la lista de asignaturas que se
          * muestra cuando solo se han de mostrar de los correspondientes, en el caso
@@ -60,7 +62,6 @@ if (isset($_SESSION['niu']) ) {
                 $result_llistar_assignatures = llistar_assignatures(connection(), "$edicio", "$pla");
             }
         }else{
-
             $result_llistar_assignatures = llistar_assignatures(connection(), "$edicio", "$pla");
 
         }
@@ -86,5 +87,7 @@ if (isset($_SESSION['niu']) ) {
         }
     }
 } else {
-    require("c_login.php");
+    $message = "Cal iniciar sessió. Serà redirigit en pocs segons.";
+    echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+    header("Refresh:3; url=/silvia_visor_encuestas_v2_1/index.php?action=login");
 }

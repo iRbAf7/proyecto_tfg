@@ -68,9 +68,7 @@
     <script src="js/functions.js"></script>
 </head>
 <body class="bg-light">
-<?php include __DIR__ . "/../resources/title.html";
-/*if (isset($_SESSION['niu']))
-    var_dump($_SESSION['niu']);*/
+<?php //include __DIR__ . "/../resources/title.html";
 ?>
 
 <div class="prod">

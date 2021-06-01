@@ -1,7 +1,8 @@
 <?php
 function resultados_preg($connection, $AssigGXX,$PlaPropietari, $nomEdicio, $Assignatura) {
     try {
-        $query = $connection->prepare("SELECT resposta, ROUND((totalAlumnes/(SELECT SUM(totalAlumnes) FROM
+        $query = $connection->prepare("SELECT resposta, ROUND((totalAlumnes/(SELECT SUM(totalAlumnes) 
+            FROM
             (
                 SELECT $AssigGXX AS resposta, COUNT(*) AS totalAlumnes
                 FROM (

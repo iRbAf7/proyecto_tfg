@@ -27,7 +27,8 @@
 <body class="bg-light">
 <?php include __DIR__ . "/resources/title.html"; ?>
 
-<?php include __DIR__ . "/resources/navigator.html"; ?>
+<?php include __DIR__ . "/resources/navigator.php";
+//include __DIR__ . "/resources/navigator.html"; ?>
 
 <div class="container">
     <?php include __DIR__ . "/controllers/escollir_assignatura.php"; ?>

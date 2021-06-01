@@ -27,7 +27,8 @@
         $grup = 0;
     }
 
-    ?>
+    ?>//ffalta añadir una opcion para cuando entra con def=ninguno y ambito=basico/total
+    //y falta añadir el año
     // si el pla es tots el valor de pla es 0
     if(<?php echo $pla?> != 0) {
         data0 = <?php echo taula_resultats(connection(), "AssigG01", "$edicio", "$pla", "$assignatura"); ?>;

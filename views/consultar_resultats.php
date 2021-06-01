@@ -26,19 +26,40 @@
         <small class="text-muted"><strong>Grup: </strong></small><small><?php echo $grup ?></small><br>
     </div>
     <br>
-    <?php if (sizeof($llista_grups) > 1){?>
+    <?php
+    if (sizeof($llista_grups) > 1 && isset($_SESSION['in'])){?>
     <h6 class="border-bottom border-gray pb-2 mb-0">Especifica un grup</h6>
     <div style="padding: 15px;">
         <form action="index.php?action=res&ve=<?php echo $versio ?>&ed=<?php echo $edicio ?>&pla=<?php echo $pla ?>&as=<?php echo $assignatura ?>" method="post">
             <select name="grup" id="grup" class="custom-select custom-select-md" style="width: 150px;">
-                <option value="Tots">Tots</option>
-                <?php foreach ($llista_grups as $grup): ?>
-                    <option value="<?php echo $grup[0];?>"><?php echo htmlentities($grup[0]);?></option>
-                <?php endforeach; ?>
+                <?php  if (!$tmp){ ?>
+                    <option value="Tots">Tots</option>
+                    <?php foreach ($llista_grups as $grup): ?>
+                        <option value="<?php echo $grup[0];?>"><?php echo htmlentities($grup[0]);?></option>
+                    <?php endforeach; ?>
+                <?php }else{ ?>
+                    <option value="Tots els meus">Tots els meus</option>
+                    <?php foreach ($llista_grups as $grup): ?>
+                        <option value="<?php echo $grup[0];?>"><?php echo htmlentities($grup[0]);?></option>
+                    <?php endforeach; ?>
+                <?php } ?>
             </select>
             <button type="submit" id="submit" class="btn btn-default">Actualitzar</button>
         </form>
     </div>
+    <?php }else{?>
+        <h6 class="border-bottom border-gray pb-2 mb-0">Especifica un grup</h6>
+        <div style="padding: 15px;">
+            <form action="index.php?action=res&ve=<?php echo $versio ?>&ed=<?php echo $edicio ?>&pla=<?php echo $pla ?>&as=<?php echo $assignatura ?>" method="post">
+                <select name="grup" id="grup" class="custom-select custom-select-md" style="width: 150px;">
+                        <option value="Tots">Tots</option>
+                        <?php foreach ($llista_grups as $grup): ?>
+                            <option value="<?php echo $grup[0];?>"><?php echo htmlentities($grup[0]);?></option>
+                        <?php endforeach; ?>
+                </select>
+                <button type="submit" id="submit" class="btn btn-default">Actualitzar</button>
+            </form>
+        </div>
     <?php }?>
     <br>
     <h6 class="border-bottom border-gray pb-2 mb-0">Participació</h6>
@@ -53,20 +74,25 @@
     <div><!--       Pregunta 1                              -->
         <br>
         <?php
-        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+        if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) ||
+            isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){
+            //esta en el caso de permiso_defecto = basico y permiso_ambito = total
             if ($count == 0){//$pertenece['count(1)'] == '0'){
                 //si entra es que no pertenece a sus correspondientes
                 if ($preguntes[0]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
+
                     include __DIR__ . "/grafics/AssigG01.php";
                 }else{
                     echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
                 }
             }else{
+
                 include __DIR__ . "/grafics/AssigG01.php";
             }
         }else{
             //si entra aqui es que tiene permiso basico o total
-            if( $preguntes[0]['necessita_privilegi'] == 0 || ($preguntes[0]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+            if( $preguntes[0]['necessita_privilegi'] == 0 ||
+                ($preguntes[0]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
                 include __DIR__ . "/grafics/AssigG01.php";
             }else{
                 echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
@@ -305,7 +331,8 @@
             }
         }else{
             //si entra aqui es que tiene permiso basico o total
-            if( $preguntes[6]['necessita_privilegi'] == 0 || ($preguntes[6]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+            if( $preguntes[6]['necessita_privilegi'] == 0 ||
+                ($preguntes[6]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
                 include __DIR__ . "/grafics/AssigG07.php";
             }else{
                 echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
@@ -406,7 +433,8 @@
             <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[9]['numero'] ?>
                 . <?php echo $preguntes[9]['enunciat'] ?></h6>
     <?php
-    if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+    if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) ||
+        isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
         if ($count == 0){//$pertenece['count(1)'] == '0'){
             if ($preguntes[9]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                 ?> <div class="container">
@@ -415,11 +443,14 @@
                         <div class=table-wrapper style="transform: scale(0.8);">
                             <table class="table">
                                 <tbody>
-                                <?php foreach ($llistat_respostes10 as $respostes): ?>
+                                <?php if (!empty($llistat_respostes10)){
+                                foreach ($llistat_respostes10 as $respostes): ?>
                                     <tr>
                                         <td><?php echo htmlentities($respostes[0]); ?></td>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php endforeach;}else{
+                                    echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
+                                } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -432,15 +463,18 @@
         }else{
             ?> <div class="container">
             <div class="row">
-                <div class="col-xs-8" style="margin-left: auto; margin-right: auto;">
+                <div class="col-xs-8" ><!--style="margin-left: auto; margin-right: auto;">-->
                     <div class=table-wrapper style="transform: scale(0.8);">
                         <table class="table">
                             <tbody>
-                            <?php foreach ($llistat_respostes10 as $respostes): ?>
-                                <tr>
-                                    <td><?php echo htmlentities($respostes[0]); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
+                            <?php if (!empty($llistat_respostes10)){
+                                foreach ($llistat_respostes10 as $respostes): ?>
+                                    <tr>
+                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                    </tr>
+                                <?php endforeach;}else{
+                                echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
+                            } ?>
                             </tbody>
                         </table>
                     </div>
@@ -450,18 +484,23 @@
         }
     }else{
         //si entra aqui es que tiene permiso basico o total
-        if( $preguntes[9]['necessita_privilegi'] == 0 || ($preguntes[9]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
+        if( $preguntes[9]['necessita_privilegi'] == 0 || ($preguntes[9]['necessita_privilegi'] == 1 &&
+                $_SESSION['permiso_superior'] == 'total')){
+            //var_dump($llistat_respostes10);
             ?> <div class="container">
             <div class="row">
                 <div class="col-xs-8" style="margin-left: auto; margin-right: auto;">
                     <div class=table-wrapper style="transform: scale(0.8);">
                         <table class="table">
                             <tbody>
-                            <?php foreach ($llistat_respostes10 as $respostes): ?>
-                                <tr>
-                                    <td><?php echo htmlentities($respostes[0]); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
+                            <?php if (!empty($llistat_respostes10)){
+                                foreach ($llistat_respostes10 as $respostes): ?>
+                                    <tr>
+                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                    </tr>
+                                <?php endforeach;}else{
+                                echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
+                            } ?>
                             </tbody>
                         </table>
                     </div>
@@ -478,7 +517,9 @@
             <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[10]['numero'] ?>
                 . <?php echo $preguntes[10]['enunciat'] ?></h6>
     <?php
-    if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+    if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])
+        || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
+
         if ($count == 0){//$pertenece['count(1)'] == '0'){
             if ($preguntes[10]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                 ?> <div class="container">
@@ -487,11 +528,14 @@
                         <div class=table-wrapper style="transform: scale(0.8);">
                             <table class="table">
                                 <tbody>
-                                <?php foreach ($llistat_respostes11 as $respostes): ?>
-                                    <tr>
-                                        <td><?php echo htmlentities($respostes[0]); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                <?php if (!empty($llistat_respostes11)){
+                                    foreach ($llistat_respostes11 as $respostes): ?>
+                                        <tr>
+                                            <td><?php echo htmlentities($respostes[0]); ?></td>
+                                        </tr>
+                                    <?php endforeach;}else{
+                                    echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
+                                } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -508,11 +552,14 @@
                     <div class=table-wrapper style="transform: scale(0.8);">
                         <table class="table">
                             <tbody>
-                            <?php foreach ($llistat_respostes11 as $respostes): ?>
-                                <tr>
-                                    <td><?php echo htmlentities($respostes[0]); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
+                            <?php if (!empty($llistat_respostes11)){
+                                foreach ($llistat_respostes11 as $respostes): ?>
+                                    <tr>
+                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                    </tr>
+                                <?php endforeach;}else{
+                                echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
+                            } ?>
                             </tbody>
                         </table>
                     </div>
@@ -529,11 +576,14 @@
                     <div class=table-wrapper style="transform: scale(0.8);">
                         <table class="table">
                             <tbody>
-                            <?php foreach ($llistat_respostes11 as $respostes): ?>
-                                <tr>
-                                    <td><?php echo htmlentities($respostes[0]); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
+                            <?php if (!empty($llistat_respostes11)){
+                                foreach ($llistat_respostes11 as $respostes): ?>
+                                    <tr>
+                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                    </tr>
+                                <?php endforeach;}else{
+                                echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
+                            } ?>
                             </tbody>
                         </table>
                     </div>

@@ -1,5 +1,5 @@
 <?php
-function participacio_profe($connection, $nomEdicio, $niu,$PlaPropietari, $Assignatura) {
+function participacio_profe($connection, $anio,$nomEdicio, $niu,$PlaPropietari, $Assignatura) {
     try {//es consulta nueva, no esta modificada
         $query = $connection->prepare("SELECT COUNT(*) AS '0' 
 FROM resultats INNER JOIN grupo_has_asignaturas
@@ -8,12 +8,14 @@ FROM resultats INNER JOIN grupo_has_asignaturas
 WHERE resultats.nomEdicio = :nomEdicio
 AND resultats.PlaPropietari = :pla 
 AND resultats.Assignatura = :Assignatura
-AND profesores_has_grupo.Profesores_niu = :niu");
+AND profesores_has_grupo.Profesores_niu = :niu
+AND grupo_has_asignaturas.anio_inicio =:anio");
         $parameters = [
             'nomEdicio' => $nomEdicio,
             'pla' => $PlaPropietari,
             'Assignatura' => $Assignatura,
             'niu' => $niu,
+            'anio' => $anio,
         ];
         $query->execute($parameters);
         $results = $query->fetchAll(PDO::FETCH_ASSOC);

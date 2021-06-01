@@ -118,9 +118,9 @@ if (isset($_SESSION['niu'])){
                     $_SESSION['result_llistar_pla'] = consulta_graus_profes(connection(),$_SESSION['niu']);
                 }else{
                     if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
-
                         //Accés BÀSIC a tots els graus i a totes les assignatures
                         //Accés TOTAL als graus “corresponents” i a totes les assignatures d’aquests graus
+
                         $_SESSION['entra_profes'] = true;
                         $_SESSION['result_llistar_pla'] = llistar_pla(connection());
                     }else{
@@ -133,7 +133,7 @@ if (isset($_SESSION['niu'])){
                     }
                 }
                 break;
-            default:
+            default://universitat y estudiants
                 $_SESSION['permiso_superior'] = $_SESSION['permiso_ambito'];
                 $_SESSION['result_llistar_pla'] = llistar_pla(connection());
                 break;
