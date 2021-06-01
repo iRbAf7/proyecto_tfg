@@ -27,20 +27,17 @@ if (isset($_SESSION['niu'])){
         $result_llistar_models = "";
         $result_llistar_versions = "";
         $result_llistar_edicions = "";
-        $result_llistar_edicions = "";
         $_SESSION['result_llistar_pla'] = "";
         $sin_permisos = "No te permisos per visualitzar cap enquesta.";
     }else{
         switch ($_SESSION['ambit_selec']){
             case 'Estudis':
                 if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
-
                     //Accés * als graus “corresponents” i a totes les assignatures d’aquests graus
                     //llista de graus -- tots asigs de llista
                     $_SESSION['in']="";
                     $_SESSION['permiso_superior'] = $_SESSION['permiso_ambito'];
                     $_SESSION['result_llistar_pla'] = consulta_graus_estudis(connection(),$_SESSION['idEnAmbito'] );
-                    //var_dump($_SESSION['result_llistar_pla']);
                 }else{
                     if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
 

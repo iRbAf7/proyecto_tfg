@@ -41,7 +41,6 @@ if (isset($_SESSION['niu']) ) {
 
         if($_SESSION['ambit_selec'] == 'Professors' || isset($_SESSION['entra_profes']))
         {
-
             $_SESSION['lista_asigs_profes'] = llistar_asigs_profes(connection(),$_SESSION['niu'] ,"$edicio", "$pla");
         }
 

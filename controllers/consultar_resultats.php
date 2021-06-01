@@ -49,7 +49,7 @@ if (isset($_SESSION['niu']) ) {
             $pla = $_GET['pla'];
             $assignatura = $_GET['as'];
 
-            if (isset($_SESSION['lista_graus_estudis'])) {
+            if (isset($_SESSION['lista_graus_estudis'])) {//sirve en el caso de Estudis, y basico-total
                 //coomprobar si la asgignatura pertenece al estudio
                 $pertenece = comprobar_asig_en_estudio(connection(), $_SESSION['lista_graus_estudis'][0]['idEstudio'], $assignatura);
                 $count = intval($pertenece['count(1)']);
@@ -93,15 +93,20 @@ if (isset($_SESSION['niu']) ) {
 
             switch ($_SESSION['ambit_selec']){
                 case 'Estudis':
-                    if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                   // if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                        $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", $pla,"$assignatura");
+                        $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", $pla,"$assignatura");
 
-                    }else{
-                        if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+                        $participacio = participacio(connection(), "$edicio", "$pla", "$assignatura");
+                        $matriculats = matriculats(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$pla", "$assignatura");
+                        $llista_grups = grups(connection(), "$edicio", "$pla", "$assignatura");
+                        /* }else{
+                             if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
 
-                        }else{
+                             }else{
 
-                        }
-                    }
+                             }
+                         }*/
                     break;
                 case 'Centres':
                     if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
@@ -223,7 +228,7 @@ if (isset($_SESSION['niu']) ) {
 
             if (sizeof($llista_grups) > 1) {
 
-                if (isset($_SESSION['in']))//isset($n_grups_totals))
+                if (isset($_SESSION['in']) && $_SESSION['ambit_selec'] == "Professors")//isset($n_grups_totals))
                 {
                     if ($n_grups_totals[0]['num'] == sizeof($llista_grups))
                     {
@@ -267,12 +272,13 @@ if (isset($_SESSION['niu']) ) {
                     }
                 }
             }else{
-                if (isset($_SESSION['in'])){
+                //se ha comentado esta parte, se ha de solo ver un grupo cuando solo existe 1 grupo
+                //if (isset($_SESSION['in'])){
                     //solo muestra que hay un grupo cuando permiso_def=ninguno y per_ambito=basico/total
                     $tmp = true;
                     $grup = $llista_grups[0][0];
                     $_SESSION['grup'] = $grup;
-                }else{
+               /* }else{
 
                     $tmp = false;
                     $grup = "Tots";
@@ -285,7 +291,7 @@ if (isset($_SESSION['niu']) ) {
                             $_SESSION['grup'] = $grup;
                         }
                     }
-                }
+                }*/
 
             }
 
@@ -303,7 +309,7 @@ if (isset($_SESSION['niu']) ) {
                 $percentParticipacio = "Dada no disponible";
             }
 
-            if (isset($_SESSION['entra_profes']) || isset($_SESSION['in'])){//isset($_SESSION['lista_asigs_profes'])) {
+            if ((isset($_SESSION['entra_profes']) || isset($_SESSION['in']) )&& $_SESSION['ambit_selec'] == 'Professors'){//isset($_SESSION['lista_asigs_profes'])) {
 
                 $count = 0;
                 for ($i = 0; $i < sizeof($_SESSION['lista_asigs_profes']); $i++) {
