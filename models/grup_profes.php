@@ -1,6 +1,7 @@
 <?php
 function grup_profes($connection,$anio, $nomEdicio,$niu, $PlaPropietari, $Assignatura) {
     try {//actualizadoo
+
         if($PlaPropietari == "0"){
             $query = $connection->prepare("SELECT DISTINCT resultats.Grup AS '0'
 FROM resultats
@@ -45,5 +46,6 @@ AND grupo_has_asignaturas.anio_inicio =:anio");
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
+    var_dump($results);
     return ($results);
 }
