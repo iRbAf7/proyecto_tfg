@@ -24,6 +24,9 @@ switch ($action) {
     case 'logout':
         include __DIR__.'/logout.php';
         break;
+    /*case 'prueba'://si falla borrar
+        include __DIR__.'/prueba.php';
+        break;*/
     default:
         include __DIR__ .'/login.php';
         break;

@@ -27,7 +27,8 @@
     </div>
     <br>
     <?php
-    if (sizeof($llista_grups) > 1 && isset($_SESSION['in'])){?>
+    if (sizeof($llista_grups) > 1 ){//se ha comentado porqe en caso de estudis basic-basic no entraba
+        //&& isset($_SESSION['in'])){?>
     <h6 class="border-bottom border-gray pb-2 mb-0">Especifica un grup</h6>
     <div style="padding: 15px;">
         <form action="index.php?action=res&ve=<?php echo $versio ?>&ed=<?php echo $edicio ?>&pla=<?php echo $pla ?>&as=<?php echo $assignatura ?>" method="post">
@@ -48,18 +49,18 @@
         </form>
     </div>
     <?php }else{?>
-        <h6 class="border-bottom border-gray pb-2 mb-0">Especifica un grup</h6>
+       <!-- <h6 class="border-bottom border-gray pb-2 mb-0">Especifica un grup</h6>
         <div style="padding: 15px;">
-            <form action="index.php?action=res&ve=<?php echo $versio ?>&ed=<?php echo $edicio ?>&pla=<?php echo $pla ?>&as=<?php echo $assignatura ?>" method="post">
+            <form action="index.php?action=res&ve=<?php// echo $versio ?>&ed=<?php //echo $edicio ?>&pla=<?php //echo $pla ?>&as=<?php //echo $assignatura ?>" method="post">
                 <select name="grup" id="grup" class="custom-select custom-select-md" style="width: 150px;">
                         <option value="Tots">Tots</option>
-                        <?php foreach ($llista_grups as $grup): ?>
-                            <option value="<?php echo $grup[0];?>"><?php echo htmlentities($grup[0]);?></option>
-                        <?php endforeach; ?>
+                        <?php //foreach ($llista_grups as $grup): ?>
+                            <option value="<?php //echo $grup[0];?>"><?php //echo htmlentities($grup[0]);?></option>
+                        <?php// endforeach; ?>
                 </select>
                 <button type="submit" id="submit" class="btn btn-default">Actualitzar</button>
             </form>
-        </div>
+        </div>-->
     <?php }?>
     <br>
     <h6 class="border-bottom border-gray pb-2 mb-0">Participació</h6>
@@ -431,7 +432,7 @@
 
 
             <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[9]['numero'] ?>
-                . <?php echo $preguntes[9]['enunciat'] ?></h6>
+                . <?php echo $preguntes[9]['enunciat'] ?></h6><br>
     <?php
     if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) ||
         isset($_SESSION['entra_dept']) || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
@@ -439,14 +440,14 @@
             if ($preguntes[9]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                 ?> <div class="container">
                 <div class="row">
-                    <div class="col-xs-8" style="margin-left: auto; margin-right: auto;">
-                        <div class=table-wrapper style="transform: scale(0.8);">
-                            <table class="table">
+                    <div class="col-xs-8" ><!--style="margin-left: auto; margin-right: auto;">-->
+                        <div class=table-wrapper ><!--style="transform: scale(0.8);">-->
+                            <table class="table" style="max-width: 1000px;">
                                 <tbody>
                                 <?php if (!empty($llistat_respostes10)){
                                 foreach ($llistat_respostes10 as $respostes): ?>
                                     <tr>
-                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                        <td style=" text-align: left; font-size: 12px;"><?php echo htmlentities($respostes[0]); ?></td>
                                     </tr>
                                 <?php endforeach;}else{
                                     echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
@@ -464,13 +465,13 @@
             ?> <div class="container">
             <div class="row">
                 <div class="col-xs-8" ><!--style="margin-left: auto; margin-right: auto;">-->
-                    <div class=table-wrapper style="transform: scale(0.8);">
-                        <table class="table">
+                    <div class=table-wrapper ><!--style="transform: scale(0.8);">-->
+                        <table class="table" style="max-width: 1000px;">
                             <tbody>
                             <?php if (!empty($llistat_respostes10)){
                                 foreach ($llistat_respostes10 as $respostes): ?>
                                     <tr>
-                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                        <td style=" text-align: left; font-size: 12px;"><?php echo htmlentities($respostes[0]); ?></td>
                                     </tr>
                                 <?php endforeach;}else{
                                 echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
@@ -489,14 +490,14 @@
             //var_dump($llistat_respostes10);
             ?> <div class="container">
             <div class="row">
-                <div class="col-xs-8" style="margin-left: auto; margin-right: auto;">
-                    <div class=table-wrapper style="transform: scale(0.8);">
-                        <table class="table">
+                <div class="col-xs-8" ><!--style="margin-left: auto; margin-right: auto;">-->
+                    <div class=table-wrapper >
+                        <table class="table" style="max-width: 1000px;">
                             <tbody>
                             <?php if (!empty($llistat_respostes10)){
                                 foreach ($llistat_respostes10 as $respostes): ?>
                                     <tr>
-                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                        <td style=" text-align: left; font-size: 12px;"><?php echo htmlentities($respostes[0]); ?></td>
                                     </tr>
                                 <?php endforeach;}else{
                                 echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
@@ -511,11 +512,11 @@
             echo "<div class='alert alert-danger' role='alert'> No te accès per visualitzar enquesta pregunta. </div>";
         }
     }
-     ?>
+     ?><br>
 
 
             <h6 class="border-bottom border-gray pb-2 mb-0"><?php echo $preguntes[10]['numero'] ?>
-                . <?php echo $preguntes[10]['enunciat'] ?></h6>
+                . <?php echo $preguntes[10]['enunciat'] ?></h6><br><!---------- Ejercicio 11   ----------->
     <?php
     if(isset($_SESSION['lista_graus_estudis']) || isset($_SESSION['lista_graus_centres']) || isset($_SESSION['entra_dept'])
         || isset($_SESSION['entra_profes'])){//esta en el caso de permiso_defecto = basico y permiso_ambito = total
@@ -524,14 +525,14 @@
             if ($preguntes[10]['necessita_privilegi'] == 0 &&  $_SESSION['permiso_defecto'] == "basico"){
                 ?> <div class="container">
                 <div class="row">
-                    <div class="col-xs-8" style="margin-left: auto; margin-right: auto;">
-                        <div class=table-wrapper style="transform: scale(0.8);">
-                            <table class="table">
+                    <div class="col-xs-8" ><!--style="margin-left: auto; margin-right: auto;">-->
+                        <div class=table-wrapper> <!--style="transform: scale(0.8); float: left;">-->
+                            <table class="table" style="max-width: 1000px;">
                                 <tbody>
                                 <?php if (!empty($llistat_respostes11)){
                                     foreach ($llistat_respostes11 as $respostes): ?>
                                         <tr>
-                                            <td><?php echo htmlentities($respostes[0]); ?></td>
+                                            <td style=" text-align: left; font-size: 12px;"><?php echo htmlentities($respostes[0]); ?></td>
                                         </tr>
                                     <?php endforeach;}else{
                                     echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
@@ -548,14 +549,14 @@
         }else{
             ?> <div class="container">
             <div class="row">
-                <div class="col-xs-8" style="margin-left: auto; margin-right: auto;">
-                    <div class=table-wrapper style="transform: scale(0.8);">
-                        <table class="table">
+                <div class="col-xs-8" ><!--style="margin-left: auto; margin-right: auto;">-->
+                    <div class=table-wrapper ><!--style="transform: scale(0.8);float: left;">-->
+                        <table class="table" style="max-width: 1000px;">
                             <tbody>
                             <?php if (!empty($llistat_respostes11)){
                                 foreach ($llistat_respostes11 as $respostes): ?>
                                     <tr>
-                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                        <td style=" text-align: left;font-size: 12px;"><?php echo htmlentities($respostes[0]); ?></td>
                                     </tr>
                                 <?php endforeach;}else{
                                 echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";
@@ -570,16 +571,16 @@
     }else{
         //si entra aqui es que tiene permiso basico o total
         if( $preguntes[10]['necessita_privilegi'] == 0 || ($preguntes[10]['necessita_privilegi'] == 1 && $_SESSION['permiso_superior'] == 'total')){
-            ?> <div class="container">
+            ?><div class="container">
             <div class="row">
-                <div class="col-xs-8" style="margin-left: auto; margin-right: auto;">
-                    <div class=table-wrapper style="transform: scale(0.8);">
-                        <table class="table">
+                <div  class="col-xs-8" ><!--style="margin-left: auto; margin-right: auto;">-->
+                    <div class=table-wrapper >
+                        <table class="table" style="max-width: 1000px;">
                             <tbody>
                             <?php if (!empty($llistat_respostes11)){
                                 foreach ($llistat_respostes11 as $respostes): ?>
                                     <tr>
-                                        <td><?php echo htmlentities($respostes[0]); ?></td>
+                                        <td style=" text-align: left; font-size: 12px;"><?php echo htmlentities($respostes[0]); ?></td>
                                     </tr>
                                 <?php endforeach;}else{
                                 echo "<div class='alert alert-danger' role='alert'> No existeixen resultats per mostrar. </div>";

@@ -21,7 +21,7 @@ if (isset($_SESSION['niu']) ) {
         $model_compare = llistar_models(connection());
         $versio_compare = llistar_versions(connection());
 
-        $llista_asignatures = llistar_assig_totes(connection());
+        //$llista_asignatures = llistar_assig_totes(connection());
         /*if (isset($_POST['elegido'])){
             $pla = $_POST['elegido'];
             if($_SESSION['ambit_selec'] == 'Departaments' || isset($_SESSION['entra_dept']))
@@ -53,9 +53,6 @@ if (isset($_SESSION['niu']) ) {
             require("views/comparar_enquestes.php");
         }*/
         require("views/comparar_enquestes.php");
-
-
-
     }
 } else {
     require("c_login.php");

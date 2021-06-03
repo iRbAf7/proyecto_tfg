@@ -26,7 +26,9 @@
                         ?></option>
                     <?php foreach ( $_SESSION['result_llistar_pla'] as $pla): ?>
                         <option value="<?php echo $pla['idEstudio'];?>"><?php echo htmlentities($pla['nombre']);?></option>
+
                     <?php endforeach; ?>
+                    <!--<script>cambio_de_pla(<?php //echo$pla['idEstudio'];?>)</script>-->
                 </select>
             </div>
         </div>

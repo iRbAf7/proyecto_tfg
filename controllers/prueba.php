@@ -1,6 +1,9 @@
 <?php
+
 session_start();
-function connection() {
+
+ function connection()
+{
     $server = "localhost"; $user = "root"; $password = "12345"; $database = "v2_permisos_encuestas";
     $connection = new PDO("mysql:host=$server;dbname=$database;charset=UTF8", $user, $password);
     try{
@@ -11,47 +14,49 @@ function connection() {
     return($connection);
 }
 function llistar_assignatures_dept($connection, $idDept,$nomEdicio, $PlaPropietari) {
-    try {
+    try {//updated
         if ($PlaPropietari == "0"){
-            $graus_dept = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
-                                        FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
-                                        INNER JOIN profesores_has_asignaturas ON profesores_has_asignaturas.asignaturas_idAsignaturas = asignaturas.idAsignaturas
-                                        INNER JOIN profesores ON profesores.niu = profesores_has_asignaturas.profesores_niu 
-                                        INNER JOIN departamentos_has_profesores ON departamentos_has_profesores.Profesores_niu = profesores.niu
-                                        WHERE resultats.nomEdicio = :nomEdicio
-                                        AND departamentos_has_profesores.Departamentos_idDepartamentos =:idDept
-                                        ORDER BY asignaturas.nombre ASC
-                                        ");
+            $graus_dept = $connection->prepare("
+            SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
+INNER JOIN grupo_has_asignaturas ON grupo_has_asignaturas.Asignaturas_idAsignaturas = asignaturas.idAsignaturas
+INNER JOIN profesores_has_grupo ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id 
+INNER JOIN departamentos_has_profesores ON departamentos_has_profesores.Profesores_niu = profesores_has_grupo.Profesores_niu
+WHERE resultats.nomEdicio = :nomEdicio
+AND departamentos_has_profesores.Departamentos_idDepartamentos = :idDept
+ORDER BY asignaturas.nombre ASC");
             $parametros = [
                 'idDept' => $idDept,
                 'nomEdicio' => $nomEdicio,
             ];
-        }else{
+        }
+        else{
             if($nomEdicio == ""){
-                $graus_dept = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
-                                        FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
-                                        INNER JOIN profesores_has_asignaturas ON profesores_has_asignaturas.asignaturas_idAsignaturas = asignaturas.idAsignaturas
-                                        INNER JOIN profesores ON profesores.niu = profesores_has_asignaturas.profesores_niu 
-                                        INNER JOIN departamentos_has_profesores ON departamentos_has_profesores.Profesores_niu = profesores.niu
-                                        AND resultats.PlaPropietari = :PlaPropietari 
-                                        AND departamentos_has_profesores.Departamentos_idDepartamentos =:idDept
-                                        ORDER BY asignaturas.nombre ASC
+                $graus_dept = $connection->prepare("
+                SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
+INNER JOIN grupo_has_asignaturas ON grupo_has_asignaturas.Asignaturas_idAsignaturas = asignaturas.idAsignaturas
+INNER JOIN profesores_has_grupo ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id 
+INNER JOIN departamentos_has_profesores ON departamentos_has_profesores.Profesores_niu = profesores_has_grupo.Profesores_niu
+WHERE resultats.PlaPropietari = :PlaPropietari 
+AND departamentos_has_profesores.Departamentos_idDepartamentos = :idDept
+ORDER BY asignaturas.nombre ASC
                                         ");
                 $parametros = [
                     'idDept' => $idDept,
                     'PlaPropietari' => $PlaPropietari,
                 ];
             }else {
-                $graus_dept = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
-                                        FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
-                                        INNER JOIN profesores_has_asignaturas ON profesores_has_asignaturas.asignaturas_idAsignaturas = asignaturas.idAsignaturas
-                                        INNER JOIN profesores ON profesores.niu = profesores_has_asignaturas.profesores_niu 
-                                        INNER JOIN departamentos_has_profesores ON departamentos_has_profesores.Profesores_niu = profesores.niu
-                                        WHERE resultats.nomEdicio = :nomEdicio 
-                                        AND resultats.PlaPropietari = :PlaPropietari 
-                                        AND departamentos_has_profesores.Departamentos_idDepartamentos =:idDept
-                                        ORDER BY asignaturas.nombre ASC
-
+                $graus_dept = $connection->prepare("
+                SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
+INNER JOIN grupo_has_asignaturas ON grupo_has_asignaturas.Asignaturas_idAsignaturas = asignaturas.idAsignaturas
+INNER JOIN profesores_has_grupo ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id 
+INNER JOIN departamentos_has_profesores ON departamentos_has_profesores.Profesores_niu = profesores_has_grupo.Profesores_niu
+WHERE resultats.nomEdicio = :nomEdicio
+AND resultats.PlaPropietari = :PlaPropietari
+AND departamentos_has_profesores.Departamentos_idDepartamentos = :idDept
+ORDER BY asignaturas.nombre ASC
                                         ");
                 $parametros = [
                     'idDept' => $idDept,
@@ -71,9 +76,13 @@ function llistar_assignatures_dept($connection, $idDept,$nomEdicio, $PlaPropieta
     return ($graus_dept);
 }
 function llistar_asigs_profes($connection, $niu,$nomEdicio, $PlaPropietari) {
-    try {
+    try {//updated
+
         if ($PlaPropietari == "0"){
-            $asigs_profes = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+
+            var_dump("entroo");
+            $asigs_profes = $connection->prepare("
+            SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
 FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
 INNER JOIN grupo_has_asignaturas ON grupo_has_asignaturas.Asignaturas_idAsignaturas = asignaturas.idAsignaturas
 INNER JOIN profesores_has_grupo ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id
@@ -87,21 +96,25 @@ ORDER BY asignaturas.nombre ASC
             ];
         }else{
             if($nomEdicio ==""){
-                $asigs_profes = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+                $asigs_profes = $connection->prepare("
+                SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
 FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
 INNER JOIN grupo_has_asignaturas ON grupo_has_asignaturas.Asignaturas_idAsignaturas = asignaturas.idAsignaturas
 INNER JOIN profesores_has_grupo ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id
 WHERE resultats.PlaPropietari = :PlaPropietari
 AND profesores_has_grupo.Profesores_niu  = :niu
 ORDER BY asignaturas.nombre ASC
-
+                                       
                                         ");
+
                 $parametros = [
                     'niu' => $niu,
                     'PlaPropietari' => $PlaPropietari,
                 ];
             }else {
-                $asigs_profes = $connection->prepare(" SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
+
+                $asigs_profes = $connection->prepare("
+                SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
 FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
 INNER JOIN grupo_has_asignaturas ON grupo_has_asignaturas.Asignaturas_idAsignaturas = asignaturas.idAsignaturas
 INNER JOIN profesores_has_grupo ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id
@@ -109,7 +122,6 @@ WHERE resultats.nomEdicio =:nomEdicio
 AND resultats.PlaPropietari = :PlaPropietari 
 AND profesores_has_grupo.Profesores_niu  = :niu
 ORDER BY asignaturas.nombre ASC 
-
                                         ");
                 $parametros = [
                     'niu' => $niu,
@@ -136,11 +148,11 @@ function llistar_assignatures($connection, $nomEdicio, $PlaPropietari) {
                                         FROM asignaturas INNER JOIN resultats ON resultats.Assignatura = asignaturas.idAsignaturas
                                         AND resultats.PlaPropietari = :PlaPropietari 
                                         ORDER BY asignaturas.nombre ASC");
-
                 $parameters = [
                     'PlaPropietari' => $PlaPropietari,
                 ];
             }else {
+
                 $query = $connection->prepare("SELECT DISTINCT resultats.Assignatura, asignaturas.nombre 
                                         FROM asignaturas INNER JOIN resultats ON resultats.Assignatura = asignaturas.idAsignaturas
                                         WHERE resultats.nomEdicio = :nomEdicio 
@@ -174,7 +186,7 @@ if (isset($_POST['id'])){
     //require_once("models/llistar_asigs_profes.php");
     //require_once("models/llistar_assignatures.php");
     $pla = $_POST['id'];
-    var_dump($pla);
+
     if($_SESSION['ambit_selec'] == 'Departaments' || isset($_SESSION['entra_dept']))
     {
         $_SESSION['asigs_dept'] = llistar_assignatures_dept(connection(),$_SESSION['idEnAmbito'],"", "$pla");

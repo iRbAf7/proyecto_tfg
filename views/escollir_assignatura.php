@@ -16,6 +16,7 @@
     <br>
     <h6 class="border-bottom border-gray pb-2 mb-0">Escollir assignatura</h6>
     <br>
+    <?php if (!isset($message)){ ?>
     <form class="form-horizontal" action="index.php?action=escollir_assignatura" method="post">
         <div class="form-group">
             <label class="control-label col-sm-2" for="assignatures">Assignatura: </label>
@@ -32,6 +33,8 @@
                 <button type="submit" class="btn btn-default">Enviar</button>
             </div>
         </div>
-
     </form>
+    <?php }else{
+        echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+    } ?>
 </div>

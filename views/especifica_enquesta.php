@@ -44,12 +44,10 @@
                 <select name="pla_estudis" id="pla_estudis" class="form-control">
                     <?php if (isset($_SESSION['in']) ){//&& $_SESSION['ambit_selec'] == 'Professors'){?>
                     <?php
-                        for ($i = 0 ;$i<sizeof($_SESSION['result_llistar_pla']);$i++){//foreach ( $_SESSION['result_llistar_pla'] as $pla): ?>
-                    <option value="<?php echo $_SESSION['result_llistar_pla'][$i]['idEstudio'];?>">
+                        for ($i = 0 ;$i<sizeof($_SESSION['result_llistar_pla']);$i++){ ?>
+                    <option value="<?php echo htmlentities($_SESSION['result_llistar_pla'][$i]['idEstudio']);?>">
                         <?php echo htmlentities($_SESSION['result_llistar_pla'][$i]['nombre']);?></option>
-                    <?php }
-
-                    //endforeach; ?>
+                    <?php }//endforeach; ?>
 
                     <?php }else{
                         ?>
@@ -73,6 +71,7 @@
             </div>
 
         </div>
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">Enviar</button>

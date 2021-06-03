@@ -1,52 +1,56 @@
 
 
-function visitPage(){
-    //header("Refresh:0; url=/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta");
-   // window.location='/silvia_visor_encuestas_v2/index.php?action=especifica_enquesta';
-}
-
-/*$(document).ready(function(){
-    $("#nom_edicio").on('change', function () {
-        $("#nom_edicio option:selected").each(function () {
-            elegido=$(this).val();
-            $.post("/../controllers/especifica_enquesta.php", { elegido: elegido }, function(data){
-                $("#pla_estudis").html(data);
-            });
-        });
-    });
-});
-*/
-
-$(document).ready(function (){
-    $("#pla_estudis").change(function (){
+$(document).ready(function () {
+    $("#pla_estudis").change(function () {
         var parametros = "id="+$("#pla_estudis").val();
+        console.log(parametros);
         $.ajax({
-            url:'./controllers/prueba.php',
+            url: './controllers/prueba.php',
+            data: parametros,
             method: 'post',
-            data: parametros,//$("#asig_to_compare").serialize(),
-            success:function(res){
-                $("#assignatura").html(res);
+            success: function (output) {
+                console.log(output);
+                $('#assignatura').html(output);
             }
         });
     })
+});
 
-   /* $("#pla_estudis").on('change', function () {
-        $("#nom_edicio option:selected").each(function () {
-            var elegido=$(this).val();
-            $.post("../controllers/prueba.php", { elegido: elegido }, function(data){
-                $("#assignatura").html(data);
+
+
+//function cambio_de_pla(id_plan) {
+    $(document).ready(function () {
+        $("#pla_estudis").change(function () {
+            var parametros = "id="+$("#pla_estudis").val();
+            console.log(parametros);
+            $.ajax({
+                url: './controllers/prueba.php',
+                data: parametros,
+                method: 'post',
+                success: function (output) {
+                    console.log(output);
+                    $('#assignatura').html(output);
+                }
             });
+        })
+    });
+//}
+   /*
+   $.ajax({
+            url:'index.php?accion=prueba',//'./controllers/prueba.php',
+            method: 'post',
+            data: parametros,//$("#asig_to_compare").serialize(),
+            success:function(res){
+                console.log(res)
+                $("#assignatura").html(res);
+            }
         });
-    });*/
+   * */
 
 
-    /*
-    $('#comparar').on('click', function() {
-        $("#show_table").load('index.php?action=tabla_compare');
-        return false;
-    });*/
 
 
+$(document).ready(function (){
     //esgto esta bieee
     $(document).on("click", '#comparar',function () {
         var selected = $("#pla_estudis option:selected").text();
