@@ -1,8 +1,12 @@
-
 <?php
 require_once("models/connection.php");
 require_once("models/preguntes.php");
 require_once("models/ediciones_de_asig.php");
+require_once("models/llistar_edicions_profes.php");
+require_once("models/llistar_edicions_depts.php");
+require_once("models/llistar_edicions_centres.php");
+require_once("models/llistar_edicions_estudis.php");
+
 require_once("models/llistar_versions.php");
 require_once("models/taula_results_tots.php");
 require_once("models/resultados_preg.php");
@@ -10,28 +14,41 @@ require_once("models/resultados_preg_profe.php");
 require_once("models/calcul_mitjana_profe.php");
 require_once("models/matriculats_segons_profe.php");
 require_once("models/return_nom_asig.php");
-require_once("models/return_id_pla.php");
+require_once("models/return_nom_pla.php");
 require_once("models/taula_resultats.php");
 require_once("models/matriculats.php");
 require_once("models/calcul_mitjana.php");
 require_once("models/participacio.php");
 require_once("models/participacio_profe.php");
 
-
-
 if (isset($_SESSION['niu']) ) {
     if(isset($_POST['assignatura'])){
         $version = llistar_versions(connection());
 
         $nom_asig = return_nom_asig(connection(),$_POST['assignatura']);
-
-        $id_pla = return_id_pla(connection(), $_POST['pla']);
+        $nom_pla = return_nom_pla(connection(),$_POST['pla']);
+        $id_pla = $_POST['pla'];
 
         $preguntes = preguntes(connection(), $version[0]['nom']);
         $ediciones = ediciones_de_asig(connection(), $_POST['assignatura']);
 
-       // $matriculats = matriculats(connection(),$ediciones[0]['anio_inicio'],$ediciones[0]['nom'], $id_pla, $id_asignatura);
-
+        switch ($_SESSION['ambit_selec']){
+            case 'Estudis':
+                $ediciones = llistar_edicions_estudis(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+                break;
+            case 'Centres':
+                $ediciones = llistar_edicions_centres(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+                break;
+            case 'Departaments':
+                $ediciones = llistar_edicions_depts(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+                break;
+            case 'Professors':
+                $ediciones = llistar_edicions_profes(connection(),$_SESSION['niu'],$_POST['assignatura']);
+                break;
+            default:
+                $ediciones = ediciones_de_asig(connection(), $_POST['assignatura']);
+                break;
+        }
 
         $array_matriculats = array();
         $array_participants = array();

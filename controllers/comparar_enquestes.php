@@ -3,57 +3,93 @@ require_once("models/connection.php");
 require_once("models/llistar_models.php");
 require_once("models/llistar_versions.php");
 require_once("models/llistar_assig_totes.php");
+require_once("models/llistar_pla.php");
+
+require_once("models/consulta_graus_estudis.php");
+require_once("models/consulta_graus_centres.php");
+require_once("models/consulta_graus_departaments.php");
+require_once("models/consulta_graus_profes.php");
+
 
 if (isset($_SESSION['niu']) ) {
     if ($_SESSION['permiso_ambito'] == "ninguno" && $_SESSION['permiso_defecto'] == "ninguno") {
 
-        /*if ($_SESSION['permiso_ambito'] == "ninguno")
-        {
-            $message = "No te permisos per visualitzar cap enquesta.";
-        }else{
-            $message = "Cal especificar l'enquesta. Serà redirigit en pocs segons.";
-        }*/
-        $message = "No te permisos per visualitzar cap enquesta.";
-        echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+        $sin_permisos = "No te permisos per visualitzar cap enquesta.";
+        require("views/comparar_enquestes.php");
+        //echo "<div class='alert alert-danger' role='alert'>" .$sin_permisos . "</div>";
         header("Refresh:3; url=/silvia_visor_encuestas_v2_1/index.php?action=especifica_enquesta");
 
     } else {
         $model_compare = llistar_models(connection());
         $versio_compare = llistar_versions(connection());
+        $usuari = $_SESSION['niu'];
 
-        //$llista_asignatures = llistar_assig_totes(connection());
-        /*if (isset($_POST['elegido'])){
-            $pla = $_POST['elegido'];
-            if($_SESSION['ambit_selec'] == 'Departaments' || isset($_SESSION['entra_dept']))
-            {
-                $_SESSION['asigs_dept'] = llistar_assignatures_dept(connection(),$_SESSION['idEnAmbito'],"", "$pla");
-            }
-            if($_SESSION['ambit_selec'] == 'Professors' || isset($_SESSION['entra_profes']))
-            {
-                $_SESSION['lista_asigs_profes'] = llistar_asigs_profes(connection(),$_SESSION['niu'] ,"", "$pla");
+        switch ($_SESSION['ambit_selec']){
+            case 'Estudis':
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
 
-            }
-
-            if(($_SESSION['ambit_selec'] == 'Departaments' || $_SESSION['ambit_selec'] == 'Professors') && isset($_SESSION['permiso_superior'])){
-                if($_SESSION['permiso_superior'] == $_SESSION['permiso_ambito']){
-                    if ($_SESSION['ambit_selec'] == 'Departaments'){
-                        $llista_asignatures = $_SESSION['asigs_dept'];
-                    }else{//en caso de Professor
-                        $llista_asignatures = $_SESSION['lista_asigs_profes'];
-                    }
+                    $lista_estudios = consulta_graus_estudis(connection(),$_SESSION['idEnAmbito'] ,"");
                 }else{
-                    $llista_asignatures = llistar_assignatures(connection(), "", "$pla");
+                    if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+
+                        $lista_estudios = llistar_pla(connection());
+                    }else{
+
+                        $lista_estudios = llistar_pla(connection());
+                    }
                 }
-            }else{
-                $llista_asignatures = llistar_assignatures(connection(), "", "$pla");
-            }
-            var_dump($llista_asignatures);
-            //echo $llista_asignatures;
-        }else{
-            require("views/comparar_enquestes.php");
-        }*/
+                break;
+            case 'Centres':
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+
+                    $lista_estudios = consulta_graus_centres(connection(),$_SESSION['idEnAmbito'] );
+                }else{
+                    if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+
+                        $lista_estudios = llistar_pla(connection());
+                    }else{
+                        $lista_estudios = llistar_pla(connection());
+                    }
+                }
+                break;
+            case 'Departaments':
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+
+                    $lista_estudios = consulta_graus_departaments(connection(),$_SESSION['idEnAmbito'],"" );
+                }else{
+                    if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+
+
+                       $lista_estudios = llistar_pla(connection());
+                    }else{
+
+                        $lista_estudios = llistar_pla(connection());
+                    }
+                }
+                break;
+            case 'Professors':
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+
+                    $lista_estudios= consulta_graus_profes(connection(),"$usuari","");
+                }else{
+                    if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+
+                        $lista_estudios = llistar_pla(connection());
+                    }else{
+
+                        $lista_estudios = llistar_pla(connection());
+                    }
+                }
+                break;
+            default://universitat y estudiants
+
+                $lista_estudios = llistar_pla(connection());
+                break;
+        }
         require("views/comparar_enquestes.php");
     }
 } else {
-    require("c_login.php");
+    $message = "Cal iniciar sessió. Serà redirigit en pocs segons.";
+    require("views/comparar_enquestes.php");
+    header("Refresh:3; url=/silvia_visor_encuestas_v2_1/index.php?action=login");
 }

@@ -17,7 +17,7 @@ table{
 tr > th{
     width: 8.3%;
 }
-tr,th,td{
+#tablero tr,#tablero th,#tablero td/*,th,td*/{
     text-align: center;
     vertical-align: center;
     border: 1px solid #000000;

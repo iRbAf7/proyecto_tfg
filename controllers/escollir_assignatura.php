@@ -11,8 +11,9 @@ require_once("models/nom_edicio.php");
 if (isset($_SESSION['niu']) ) {
     if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] == "ninguno") {
 
-        $message = "No te permisos per visualitzar cap enquesta.";
-        echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+        $sin_permisos = "No te permisos per visualitzar cap enquesta.";
+        require("views/escollir_assignatura.php");
+        //echo "<div class='alert alert-danger' role='alert'>" .$sin_permisos . "</div>";
         header("Refresh:4; url=/silvia_visor_encuestas_v2_1/index.php?action=especifica_enquesta");
 
     } else {
@@ -67,30 +68,32 @@ if (isset($_SESSION['niu']) ) {
         }
 
 
-        if (isset($_POST['assignatures'])) {
-            if (!isset($_SESSION['id_assig'])){
-                $_SESSION['id_assig'] = array();
-            }
+            if (isset($_POST['assignatures'])) {
+                if (!isset($_SESSION['id_assig'])){
+                    $_SESSION['id_assig'] = array();
+                }
 
-            $assignatures = $_POST['assignatures'];//Guarda la id de la asignatura
-            array_push($_SESSION['id_assig'], $assignatures);
+                $assignatures = $_POST['assignatures'];//Guarda la id de la asignatura
+                array_push($_SESSION['id_assig'], $assignatures);
 
-            header("Refresh: 0; url=/silvia_visor_encuestas_v2_1/index.php?action=res&ve=$versio&ed=$edicio&pla=$pla&as=$assignatures");
-        } else {
-            unset($_SESSION["id_assig"]);
-            if (empty($result_llistar_assignatures)){
-                $message = "No hi ha asignatures disponibles.";
+                header("Refresh: 0; url=/silvia_visor_encuestas_v2_1/index.php?action=res&ve=$versio&ed=$edicio&pla=$pla&as=$assignatures");
+            } else {
+                unset($_SESSION["id_assig"]);
+                if (empty($result_llistar_assignatures)){
+                    $message = "No hi ha asignatures disponibles.";
+                }
+                require("views/escollir_assignatura.php");
             }
-            require("views/escollir_assignatura.php");
-        }
         }else{
             $message = "Cal especificar l'enquesta. Serà redirigit en pocs segons.";
-            echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+            require("views/escollir_assignatura.php");//added
+            //echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
             header("Refresh:4; url=/silvia_visor_encuestas_v2_1/index.php?action=especifica_enquesta");
         }
     }
 } else {
     $message = "Cal iniciar sessió. Serà redirigit en pocs segons.";
-    echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+    require("views/escollir_assignatura.php");
+    //echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
     header("Refresh:3; url=/silvia_visor_encuestas_v2_1/index.php?action=login");
 }

@@ -42,6 +42,7 @@ if (isset($_SESSION['niu'])) {
     }
 }else{
     $message = "Cal iniciar sessió. Serà redirigit en pocs segons.";
-    echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+    require("views/info_usuario.php");
+    //echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
     header("Refresh:3; url=/silvia_visor_encuestas_v2_1/index.php?action=login");
 }

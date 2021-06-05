@@ -46,6 +46,5 @@ AND grupo_has_asignaturas.anio_inicio =:anio");
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
-    var_dump($results);
     return ($results);
 }

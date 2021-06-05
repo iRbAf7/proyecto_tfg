@@ -1,3 +1,14 @@
+<?php include __DIR__ . "/../resources/encabezado.html";
+?>
+<body class="bg-light">
+<?php
+include __DIR__ . "/../resources/title.html";
+if (!isset($_SESSION['niu'])){
+    echo "<div class='container'> <div class='alert alert-danger' role='alert'>" .$message . "</div></div>";
+}else{
+?>
+
+<div class="container">
 <?php
 if(!empty($res)){
     echo "<div class='logger logger-login' role='alert'>" .$message . "</div>";
@@ -45,15 +56,19 @@ if(!empty($res)){
         echo "</form>";//echo "</div><br><br>";
     }
 
-}else{
+}
+else{
     echo "<div class='logger logger-login' role='alert'> Àmbit: " ;
     echo "<li> ".$ambitos."</li>";
     echo "</div>";
     echo "<div class='logger logger-login' role='alert'>" .$mensaje2 . "</div>";
-    //header("Refresh:5; url=/silvia_visor_encuestas_v2/login.php");
     echo "<form  method='post' autocomplete='on'  action='?action=info_usuario'>";
     echo "<button type='submit' name='ambit_selec' class='btn btn-default' value='$ambitos' > Especificar enquesta </button><br><br>";
     echo "</form>";
 }
-
 ?>
+    </div>
+<?php }
+include __DIR__ . "/../resources/footer.html"; ?>
+</body>
+</html>

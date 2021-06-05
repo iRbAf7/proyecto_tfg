@@ -39,13 +39,15 @@ if (isset($_SESSION['niu']) ) {
 
     if($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] == "ninguno") {
 
-        $message = "No te permisos per visualitzar cap enquesta.";
-        echo "<div class='alert alert-danger' role='alert'>" . $message . "</div>";
-        header("Refresh:4; url=/silvia_visor_encuestas_v2_1/index.php?action=escollir_assignatura");
+        $sin_permisos = "No te permisos per visualitzar cap enquesta.";
+        require("views/consultar_resultats.php");
+        //echo "<div class='alert alert-danger' role='alert'>" . $message . "</div>";
+        header("Refresh:4; url=/silvia_visor_encuestas_v2_1/index.php?action=especifica_enquesta");
 
     } else {
 
-        if (isset($_GET['as'])) {
+        if (isset($_GET['as']))
+        {
             $versio = $_GET['ve'];
             $edicio = $_GET['ed'];
             $pla = $_GET['pla'];
@@ -155,9 +157,10 @@ if (isset($_SESSION['niu']) ) {
 
                         $llista_grups = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
                             $profe_dept, "$pla", "$assignatura");
-                        var_dump($llista_grups);
+
                         $n_grups_totals = num_grups_totals_profes(connection(), $anio_edicio[0]['anio_inicio'],
                             "$edicio", "$pla", "$assignatura");
+
                         if (sizeof($llista_grups) > 1) {
                             $participacio = participacio_profe(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
                                 $_SESSION['niu'], "$pla", "$assignatura");
@@ -238,45 +241,6 @@ if (isset($_SESSION['niu']) ) {
                     break;
             }
 
-            /*if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"
-                && $_SESSION['ambit_selec'] == "Professors") {
-
-                $llistat_respostes10 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG10",$_SESSION['niu'] ,$pla,
-                                                                "$edicio", "$assignatura");
-                $llistat_respostes11 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG11", $_SESSION['niu'] ,$pla,
-                                                                    "$edicio", "$assignatura");
-
-                $llista_grups = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",$_SESSION['niu'], "$pla", "$assignatura");
-                $n_grups_totals = num_grups_totals_profes(connection(), $anio_edicio[0]['anio_inicio'],"$edicio", "$pla", "$assignatura");
-
-                 //* Si el profesor que accede tiene solo un grupo no es necesario comprobar los matriculados
-                 //* ni la participacion ya que mas abajo se realiza la consulta ya que solo tiene un grupo
-
-                if (sizeof($llista_grups) > 1) {
-                    $participacio = participacio_profe(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
-                        $_SESSION['niu'], "$pla", "$assignatura");
-                    $matriculats = matriculats_segons_profe(connection(), $anio_edicio[0]['anio_inicio'], "$edicio",
-                        "$pla", $_SESSION['niu'], "$assignatura");
-                }
-
-            }else {
-
-                 // En las dos consultas de abajo no hace falta pasar como parammetro el año de la edicion
-                 // ya que solo utiliza la tabla de resultats
-
-                $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", $pla,"$assignatura");
-                $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", $pla,"$assignatura");
-
-                if ($pla != 0) {
-                    $participacio = participacio(connection(), "$edicio", "$pla", "$assignatura");
-                    $matriculats = matriculats(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$pla", "$assignatura");
-                    $llista_grups = grups(connection(), "$edicio", "$pla", "$assignatura");
-                } else {
-                    $participacio = participacio_total(connection(), "$edicio", "$assignatura");
-                    $matriculats = matriculats_total(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$assignatura");
-                    $llista_grups = grups_totals(connection(), "$edicio", "$assignatura");
-                }
-            }*/
 
             if (sizeof($llista_grups) > 1) {
 
@@ -406,17 +370,18 @@ if (isset($_SESSION['niu']) ) {
 
             }
 
-
-
             require("views/consultar_resultats.php");
-        }else{
+        }
+        else{
             $message = "Cal especificar l'assignatura / mòdul. Serà redirigit en pocs segons.";
-            echo "<div class='alert alert-danger' role='alert'>" . $message . "</div>";
+            require("views/consultar_resultats.php");
+            //echo "<div class='alert alert-danger' role='alert'>" . $message . "</div>";
             header("Refresh:4; url=/silvia_visor_encuestas_v2_1/index.php?action=escollir_assignatura");
         }
     }
 } else {
     $message = "Cal iniciar sessió. Serà redirigit en pocs segons.";
-    echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
+    require("views/consultar_resultats.php");
+    //echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
     header("Refresh:3; url=/silvia_visor_encuestas_v2_1/index.php?action=login");
 }

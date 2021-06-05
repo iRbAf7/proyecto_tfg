@@ -1,7 +1,7 @@
 
 <!--<link href="../css/style.css" rel="stylesheet">-->
 
-<h5><?php  echo $_POST['pla'];?></h5><br>
+<h5><?php  echo $nom_pla;?></h5><br>
 <h5 class="border-bottom border-gray pb-2 mb-0"><?php echo $nom_asig;?></h5><br>
 <!--<div class="header">
     <ul class="navi">
@@ -56,7 +56,7 @@
 
 
 <br><br>
-
+<div id="tablero">
 <table ><!-- cellspacing="1000"-->
     <thead>
     <tr>
@@ -92,7 +92,7 @@
     </thead>
     <tbody>
     <?php
-    //var_dump($ediciones[1]);
+
     foreach ($ediciones as $edicion): ?>
         <tr>
             <td><?php echo htmlspecialchars($edicion['curs_academic']);?></td>
@@ -148,7 +148,9 @@
         </tr>
     <?php endforeach; ?>
     </tbody>
-</table><br><br>
+</table>
+</div>
+<br><br>
 
 
 

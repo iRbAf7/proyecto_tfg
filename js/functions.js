@@ -1,43 +1,60 @@
-
+/*
+ * AJAX para especifica_enquestes
+ * */
 
 $(document).ready(function () {
-    $("#pla_estudis").change(function () {
-        var parametros = "id="+$("#pla_estudis").val();
-        console.log(parametros);
-        $.ajax({
-            url: './controllers/prueba.php',
-            data: parametros,
-            method: 'post',
-            success: function (output) {
-                console.log(output);
-                $('#assignatura').html(output);
-            }
-        });
+
+    var nom_edicio = "nom_edicio="+$("#nom_edicio").val();
+    get_estudis_corresponents(nom_edicio);
+
+    $("#nom_edicio").change(function () {
+        var nom_edicio = "nom_edicio="+$("#nom_edicio").val();
+        //console.log(parametros);
+        get_estudis_corresponents(nom_edicio);
     })
 });
-
-
-
-//function cambio_de_pla(id_plan) {
-    $(document).ready(function () {
-        $("#pla_estudis").change(function () {
-            var parametros = "id="+$("#pla_estudis").val();
-            console.log(parametros);
-            $.ajax({
-                url: './controllers/prueba.php',
-                data: parametros,
-                method: 'post',
-                success: function (output) {
-                    console.log(output);
-                    $('#assignatura').html(output);
-                }
-            });
-        })
+function get_estudis_corresponents(nom_edicio){
+    $.ajax({
+        url: 'index.php?action=estudis_ajax',
+        data: nom_edicio,
+        method: 'post',
+        success: function (output) {
+            console.log(output);
+            $('#pla_estudis').html(output);
+        }
     });
-//}
+}
+
+
+
+/**
+ * AJAX para comparar_enquestes
+ * */
+$(document).ready(function () {
+
+    var parametros = "id="+$("#estudis").val();
+    recarga(parametros);
+
+    $("#estudis").change(function () {
+        var parametros = "id="+$("#estudis").val();
+        //console.log(parametros);
+        recarga(parametros);
+    })
+});
+function recarga(parametros){
+    $.ajax({
+        url: 'index.php?action=asigs_ajax',
+        data: parametros,
+        method: 'post',
+        success: function (output) {
+            console.log(output);
+            $('#assignatura').html(output);
+        }
+    });
+}
    /*
    $.ajax({
-            url:'index.php?accion=prueba',//'./controllers/prueba.php',
+            url:'index.php?accion=,
             method: 'post',
             data: parametros,//$("#asig_to_compare").serialize(),
             success:function(res){
@@ -51,18 +68,21 @@ $(document).ready(function () {
 
 
 $(document).ready(function (){
-    //esgto esta bieee
     $(document).on("click", '#comparar',function () {
-        var selected = $("#pla_estudis option:selected").text();
+        var selected = $("#estudis option:selected").val();
         var selected2 = $("#assignatura option:selected").val();
-        $.ajax({
-            url:"/silvia_visor_encuestas_v2_1/index.php?action=tabla_compare",
-            method: "POST",
-            data:{pla:selected,assignatura:selected2},//$("#asig_to_compare").serialize(), //id_assignatura
-            success:function(res){
-                $("#show_table").html(res);
-            }
-        });
+        console.log(selected);
+        console.log(selected2);
+            $.ajax({
+                url:"/silvia_visor_encuestas_v2_1/index.php?action=tabla_compare",
+                method: "POST",
+                data:{pla:selected,assignatura:selected2},//$("#asig_to_compare").serialize(), //id_assignatura
+                success:function(res){
+                    $("#show_table").html(res);
+                }
+            });
+
+
     });
 });
 
@@ -77,7 +97,16 @@ function functionHide() {
 
 function mostraEnunciados(id) {
     var formEdicio = document.getElementById("enunciado-"+id);
-
+    console.log(id);
+    var tmp;
+    for (var i =0;i<9;i++){
+        if (i !== id){
+            tmp = document.getElementById("enunciado-"+i);
+            if (tmp.style.display === "block"){
+                tmp.style.display = "none";
+            }
+        }
+    }
     if (formEdicio.style.display === "none") {
         formEdicio.style.display = "block";
     } else {

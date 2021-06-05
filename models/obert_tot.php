@@ -2,7 +2,7 @@
 function obert_tot($connection, $AssigGXX, $nomEdicio,$pla, $Assignatura) {
     try {//modificado con el plan academico, es decir, el estudio correspondiente
         if ($pla != '0'){
-            $query = $connection->prepare("SELECT $AssigGXX AS '0' FROM resultats
+            $query = $connection->prepare("SELECT DISTINCT $AssigGXX AS '0' FROM resultats
                                         WHERE nomEdicio = :nomEdicio 
                                         and Assignatura = :Assignatura
                                         and PlaPropietari = :pla
@@ -13,7 +13,7 @@ function obert_tot($connection, $AssigGXX, $nomEdicio,$pla, $Assignatura) {
                 'pla' => $pla,
             ];
         }else{
-            $query = $connection->prepare("SELECT $AssigGXX AS '0' FROM resultats
+            $query = $connection->prepare("SELECT DISTINCT $AssigGXX AS '0' FROM resultats
                                         WHERE nomEdicio = :nomEdicio 
                                         and Assignatura = :Assignatura                                      
                                         and $AssigGXX <> ''");

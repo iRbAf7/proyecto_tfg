@@ -8,8 +8,25 @@
         width: 100%;
     }
 </style>
+<?php include __DIR__ . "/../resources/encabezado.html";
+?>
+<body class="bg-light">
+<?php include __DIR__ . "/../resources/title.html";
+if (!isset($_SESSION['niu'])){
+    echo "<div class='container'><div class='alert alert-danger' role='alert'>" .$message . "</div></div>";
+}else{?>
 
-<div>
+<?php include __DIR__ . "/../resources/navigator.php";?>
+
+<?php
+if (isset($sin_permisos)){
+    echo "<div class='container'><div class='alert alert-danger' role='alert'>".$sin_permisos." </div></div>" ;
+}else{
+    if (!isset($_GET['as'])){
+    echo "<div class='container'><div class='alert alert-danger' role='alert'>" .$message . "</div></div>";
+}else{?>
+<div class="container">
+    <div>
     <h3><?php echo $nom_assigantura[0][0] ?></h3>
     <br>
     <h6 class="border-bottom border-gray pb-2 mb-0">Informació sobre l'enquesta</h6>
@@ -599,3 +616,10 @@
 
     
 </div>
+</div>
+    <?php }
+    }
+}
+include __DIR__ . "/../resources/footer.html"; ?>
+</body>
+</html>

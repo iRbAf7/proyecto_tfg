@@ -1,3 +1,21 @@
+<?php include __DIR__ . "/../resources/encabezado.html";
+?>
+<body class="bg-light">
+<?php include __DIR__ . "/../resources/title.html";
+if (!isset($_SESSION['niu'])){
+    echo "<div class='container'><div class='alert alert-danger' role='alert'>" .$message . "</div></div>";
+}else{?>
+
+<?php include __DIR__ . "/../resources/navigator.php";?>
+
+    <?php
+    if (isset($sin_permisos)){
+        echo "<div class='container'><div class='alert alert-danger' role='alert'>".$sin_permisos." </div></div>" ;
+    }else{
+    if (!isset($_SESSION['form'])){
+        echo "<div class='container'><div class='alert alert-danger' role='alert'>" .$message . "</div></div>";
+    }else{?>
+<div class="container">
 <div id="formEdicio">
     <h6 class="border-bottom border-gray pb-2 mb-0">Informació sobre l'enquesta</h6>
     <?php
@@ -38,3 +56,10 @@
         echo "<div class='alert alert-danger' role='alert'>" .$message . "</div>";
     } ?>
 </div>
+</div>
+<?php }
+    }
+}
+include __DIR__ . "/../resources/footer.html"; ?>
+</body>
+</html>

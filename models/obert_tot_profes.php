@@ -2,7 +2,7 @@
 function obert_tot_profes($connection, $anio,$AssigGXX, $niu,$pla,$nomEdicio, $Assignatura) {
     try {
         $query = $connection->prepare("
-                            SELECT resultats.$AssigGXX AS '0'
+                            SELECT DISTINCT resultats.$AssigGXX AS '0'
 FROM resultats INNER JOIN grupo_has_asignaturas
 	ON resultats.Grup = grupo_has_asignaturas.Grupo_idGrupo
     INNER JOIN profesores_has_grupo ON profesores_has_grupo.id_grupo_has_asig = grupo_has_asignaturas.id
