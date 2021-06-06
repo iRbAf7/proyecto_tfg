@@ -3,7 +3,7 @@ require_once("models/connection.php");
 require_once("models/niu_existent.php");
 require_once("models/consultarCargos.php");
 require_once("models/consultarAsigsUser.php");
-
+session_start();
 if(isset($_POST['submit'])){
     $_SESSION['niu'] =  $_POST['niu'];
 

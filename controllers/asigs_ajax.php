@@ -1,6 +1,5 @@
 <?php
-
-//session_start();
+session_start();
 require("models/connection.php");
 require_once("models/llistar_assignatures_dept.php");
 require_once("models/llistar_asigs_profes.php");

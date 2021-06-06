@@ -1,6 +1,10 @@
 <?php
+session_start();
 require_once("models/connection.php");
 require_once("models/nom_assignatura.php");
+
+require_once("models/llistar_assignatures_dept.php");
+require_once("models/llistar_asigs_profes.php");
 
 require_once("models/participacio.php");
 require_once("models/participacio_total.php");
@@ -33,8 +37,7 @@ require_once("models/comprobar_asig_en_estudio.php");
 require_once("models/comprobar_asig_en_centro.php");
 
 require_once("models/profe_dept_asig.php");
-
-
+//session_start();
 if (isset($_SESSION['niu']) ) {
 
     if($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] == "ninguno") {
@@ -48,10 +51,12 @@ if (isset($_SESSION['niu']) ) {
 
         if (isset($_GET['as']))
         {
+
             $versio = $_GET['ve'];
             $edicio = $_GET['ed'];
             $pla = $_GET['pla'];
             $assignatura = $_GET['as'];
+
             /**
              * Comprobaar si la asignatura solo
              * existe en un unico estudio
@@ -69,52 +74,35 @@ if (isset($_SESSION['niu']) ) {
             $preguntes = preguntes(connection(), "$versio");
             $anio_edicio = get_anio_edicio(connection(), "$edicio");
 
-
-
-
-
-
-
-            /*if (isset($_SESSION['lista_asigs_profes'])) {
-                $count = 0;
-                for ($i = 0; $i < sizeof($_SESSION['lista_asigs_profes']); $i++) {
-                    if ($_SESSION['lista_asigs_profes'][$i]['Assignatura'] == $assignatura) {
-                        $count++;
-                    }
-                }
-                if ($count > 0){
-
-                }else{
-                    $count = 0;
-                }
-
-            }*/
-
-
-
-
+            if (isset($_POST['grup'])) {
+                $grup = $_POST['grup'];
+            }
             switch ($_SESSION['ambit_selec']){
                 case 'Estudis':
-
                     if (isset($_SESSION['lista_graus_estudis'])) {//sirve en el caso de Estudis, y basico-total
                         //coomprobar si la asgignatura pertenece al estudio
-                        $pertenece = comprobar_asig_en_estudio(connection(), $_SESSION['lista_graus_estudis'][0]['idEstudio'], $assignatura);
-                        $count = intval($pertenece['count(1)']);
+                        //$pertenece = comprobar_asig_en_estudio(connection(), $_SESSION['lista_graus_estudis'][0]['idEstudio'], $assignatura);
+                        //$count = intval($pertenece['count(1)']);
+                        var_dump($_SESSION['lista_graus_estudis']);
+                        if ($pla == $_SESSION['lista_graus_estudis'][0]['idEstudio']){
+                            $count = 1;
+                        }else{
+                            $count = 0;
+                        }
                     }
                    // if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
-                        $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", $pla,"$assignatura");
-                        $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", $pla,"$assignatura");
+                        if (isset($grup)){
+                            $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", $pla,"$assignatura", $grup);
+                            $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", $pla,"$assignatura",$grup);
+                        }else{
+                            $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", $pla,"$assignatura", "Tots");
+                            $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", $pla,"$assignatura","Tots");
+                        }
 
                         $participacio = participacio(connection(), "$edicio", "$pla", "$assignatura");
                         $matriculats = matriculats(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$pla", "$assignatura");
                         $llista_grups = grups(connection(), "$edicio", "$pla", "$assignatura");
-                        /* }else{
-                             if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
 
-                             }else{
-
-                             }
-                         }*/
                     break;
                 case 'Centres':
                     if (isset($_SESSION['lista_graus_centres'])) {//sirve en el caso de Centres, y basico-total
@@ -124,8 +112,14 @@ if (isset($_SESSION['niu']) ) {
                             $count = $count + intval($pertenece['count(1)']);
                         }
                     }
-                    $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura");
-                    $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura");
+                    if (isset($grup)){
+                        $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura", $grup);
+                        $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura",$grup);
+                    }else{
+                        $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura", "Tots");
+                        $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura","Tots");
+                    }
+
 
                     $participacio = participacio(connection(), "$edicio", "$pla", "$assignatura");
                     $matriculats = matriculats(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$pla", "$assignatura");
@@ -139,21 +133,43 @@ if (isset($_SESSION['niu']) ) {
                     }*/
                     break;
                 case 'Departaments':
-                    if (isset($_SESSION['asigs_dept'])) {
+                    if($_SESSION['ambit_selec'] == 'Departaments' || isset($_SESSION['entra_dept']))
+                    {
+                        $_SESSION['asigs_dept'] = llistar_assignatures_dept(connection(),$_SESSION['idEnAmbito'],"$edicio", "$pla");
+
+                    }
+
+                    if (!empty($_SESSION['asigs_dept'])) {//antes eestaba dentro del if de:   if (sizeof($llista_grups) > 1) {
+
                         $count = 0;
+
                         for ($i = 0; $i < sizeof($_SESSION['asigs_dept']); $i++) {
                             if ($_SESSION['asigs_dept'][$i]['Assignatura'] == $assignatura) {
                                 $count++;
                             }
                         }
+
+                    }else{
+                        $count = 0;
                     }
+
                     if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
                         $profe_dept = profe_dept_asig(connection(),$_SESSION['idEnAmbito'],"$edicio",$pla);
+                        if (!empty($profe_dept)){
+                            $profe_dept = $profe_dept[0]['Profesores_niu'];
+                        }
+                        if (isset($grup)){
+                            $llistat_respostes10 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG10",$profe_dept
+                                ,$pla, "$edicio", "$assignatura", $grup);
+                            $llistat_respostes11 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG11", $profe_dept
+                                ,$pla, "$edicio", "$assignatura", $grup);
+                        }else{
+                            $llistat_respostes10 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG10",$profe_dept
+                                ,$pla, "$edicio", "$assignatura", "Tots");
+                            $llistat_respostes11 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG11", $profe_dept
+                                ,$pla, "$edicio", "$assignatura", "Tots");
+                        }
 
-                        $llistat_respostes10 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],
-                            "AssigG10",$profe_dept ,$pla, "$edicio", "$assignatura");
-                        $llistat_respostes11 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],
-                            "AssigG11", $profe_dept ,$pla, "$edicio", "$assignatura");
 
                         $llista_grups = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
                             $profe_dept, "$pla", "$assignatura");
@@ -163,28 +179,92 @@ if (isset($_SESSION['niu']) ) {
 
                         if (sizeof($llista_grups) > 1) {
                             $participacio = participacio_profe(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
-                                $_SESSION['niu'], "$pla", "$assignatura");
+                                $profe_dept, "$pla", "$assignatura");
                             $matriculats = matriculats_segons_profe(connection(), $anio_edicio[0]['anio_inicio'], "$edicio",
-                                "$pla", $_SESSION['niu'], "$assignatura");
+                                "$pla",$profe_dept, "$assignatura");
                         }
+                    }
+                    else{
 
-                    }else{
                         if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
+                            if ($count > 0){
 
+                                $profe_dept = profe_dept_asig(connection(),$_SESSION['idEnAmbito'],"$edicio",$pla);
+                                if (!empty($profe_dept)){
+                                    $profe_dept = $profe_dept[0]['Profesores_niu'];
+                                }
+
+                                $mi_lista_grups = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
+                                 $profe_dept, "$pla", "$assignatura");
+                            }
+
+                            $n_grups_totals = num_grups_totals_profes(connection(), $anio_edicio[0]['anio_inicio'],"$edicio",
+                                "$pla", "$assignatura");
+                            //$mi_lista_grups = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
+                              //  $profe_dept, "$pla", "$assignatura");
+
+                        }
+                        /***
+                         * En las dos consultas de abajo no hace falta pasar como parammetro el año de la edicion
+                         * ya que solo utiliza la tabla de resultats
+                         ***/
+                        if (isset($grup)){
+
+                            $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura", $grup);
+                            $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura",$grup);
 
                         }else{
+                            $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura", "Tots");
+                            $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura","Tots");
+                        }
 
+                        if ($pla != 0) {
+                            $participacio = participacio(connection(), "$edicio", "$pla", "$assignatura");
+                            $matriculats = matriculats(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$pla", "$assignatura");
+                            $llista_grups = grups(connection(), "$edicio", "$pla", "$assignatura");
 
+                        } else {
+                            $participacio = participacio_total(connection(), "$edicio", "$assignatura");
+                            $matriculats = matriculats_total(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$assignatura");
+                            $llista_grups = grups_totals(connection(), "$edicio", "$assignatura");
                         }
                     }
                     break;
                 case 'Professors':
+                    if($_SESSION['ambit_selec'] == 'Professors' || isset($_SESSION['entra_profes']))//added
+                    {
+                        $_SESSION['lista_asigs_profes'] = llistar_asigs_profes(connection(),$_SESSION['niu'] ,"$edicio", "$pla");
+
+                    }
+                    if (!empty($_SESSION['lista_asigs_profes'])){
+                        if ($_SESSION['ambit_selec'] == 'Professors' ){//professors
+                            $count = 0;
+                            for ($i = 0; $i < sizeof($_SESSION['lista_asigs_profes']); $i++) {
+                                if ($_SESSION['lista_asigs_profes'][$i]['Assignatura'] == $assignatura) {
+                                    $count++;
+                                }
+                            }
+                        }
+
+                    }else{
+                        $count = 0;
+
+                    }
+
+
                     if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
 
-                        $llistat_respostes10 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],
-                            "AssigG10",$_SESSION['niu'] ,$pla, "$edicio", "$assignatura");
-                        $llistat_respostes11 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],
-                            "AssigG11", $_SESSION['niu'] ,$pla, "$edicio", "$assignatura");
+                        if (isset($grup)){
+                            $llistat_respostes10 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG10",$_SESSION['niu']
+                                ,$pla, "$edicio", "$assignatura", $grup);
+                            $llistat_respostes11 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG11", $_SESSION['niu']
+                                ,$pla, "$edicio", "$assignatura", $grup);
+                        }else{
+                            $llistat_respostes10 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG10",$_SESSION['niu']
+                                ,$pla, "$edicio", "$assignatura", "Tots");
+                            $llistat_respostes11 = obert_tot_profes(connection(), $anio_edicio[0]['anio_inicio'],"AssigG11", $_SESSION['niu']
+                                ,$pla, "$edicio", "$assignatura", "Tots");
+                        }
 
                         $llista_grups = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
                             $_SESSION['niu'], "$pla", "$assignatura");
@@ -205,29 +285,47 @@ if (isset($_SESSION['niu']) ) {
                         if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
                             $n_grups_totals = num_grups_totals_profes(connection(), $anio_edicio[0]['anio_inicio'],"$edicio", "$pla", "$assignatura");
 
+                            if ($count > 0){
+                                $mi_lista_grups = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",
+                                    $_SESSION['niu'], "$pla", "$assignatura");
+
+                            }//else{//esto esta añadido
+                                //$llista_grups = grups(connection(), "$edicio", "$pla", "$assignatura");
+                            //}
+
                         }
                             /***
                              * En las dos consultas de abajo no hace falta pasar como parammetro el año de la edicion
                              * ya que solo utiliza la tabla de resultats
                              ***/
-                        $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", $pla,"$assignatura");
-                        $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", $pla,"$assignatura");
+                            if (isset($grup)){
+                                $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura", $grup);
+                                $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura",$grup);
+                            }else{
+                                $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura", "Tots");
+                                $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura","Tots");
+                            }
+                            if ($pla != 0) {
+                                $participacio = participacio(connection(), "$edicio", "$pla", "$assignatura");
+                                $matriculats = matriculats(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$pla", "$assignatura");
+                                $llista_grups = grups(connection(), "$edicio", "$pla", "$assignatura");
+                            } else {
+                                $participacio = participacio_total(connection(), "$edicio", "$assignatura");
+                                $matriculats = matriculats_total(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$assignatura");
+                                $llista_grups = grups_totals(connection(), "$edicio", "$assignatura");
+                            }
 
-                        if ($pla != 0) {
-                            $participacio = participacio(connection(), "$edicio", "$pla", "$assignatura");
-                            $matriculats = matriculats(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$pla", "$assignatura");
-                            $llista_grups = grups(connection(), "$edicio", "$pla", "$assignatura");
-                        } else {
-                            $participacio = participacio_total(connection(), "$edicio", "$assignatura");
-                            $matriculats = matriculats_total(connection(), $anio_edicio[0]['anio_inicio'], "$edicio", "$assignatura");
-                            $llista_grups = grups_totals(connection(), "$edicio", "$assignatura");
-                        }
 
                     }
                     break;
                 default://universitat y estudiants
-                    $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", $pla,"$assignatura");
-                    $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", $pla,"$assignatura");
+                    if (isset($grup)){
+                        $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura", $grup);
+                        $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura",$grup);
+                    }else{
+                        $llistat_respostes10 = obert_tot(connection(), "AssigG10", "$edicio", "$pla","$assignatura", "Tots");
+                        $llistat_respostes11 = obert_tot(connection(), "AssigG11", "$edicio", "$pla","$assignatura","Tots");
+                    }
 
                     if ($pla != 0) {
                         $participacio = participacio(connection(), "$edicio", "$pla", "$assignatura");
@@ -244,48 +342,180 @@ if (isset($_SESSION['niu']) ) {
 
             if (sizeof($llista_grups) > 1) {
 
-                if (isset($_SESSION['in']) && $_SESSION['ambit_selec'] == "Professors")//isset($n_grups_totals))
+                if (isset($_SESSION['in']) && ($_SESSION['ambit_selec'] == "Professors" || $_SESSION['ambit_selec'] == "Departaments"))//isset($n_grups_totals))
                 {
                     if ($n_grups_totals[0]['num'] == sizeof($llista_grups))
-                    {
-                        $tmp = false;
-                        $grup = "Tots";
-                        $_SESSION['grup'] = NULL;
-                        if (isset($_POST['grup'])) {
-                            $grup = $_POST['grup'];
-                            if ($grup == "Tots") {
-                                $_SESSION['grup'] = NULL;
-                            } else {
-                                $_SESSION['grup'] = $grup;
+                    {//entra si se imparte en todos los grupos de la asignatura
+
+                        if ($_SESSION['ambit_selec'] == "Professors" ){
+                            $tmp = false;
+                            $grup = "Tots";
+                            $_SESSION['grup'] = NULL;
+                            if (isset($_POST['grup'])) {
+                                $grup = $_POST['grup'];
+                                if ($grup == "Tots") {
+                                    $_SESSION['grup'] = NULL;
+                                } else {
+                                    $_SESSION['grup'] = $grup;
+                                }
+                            }
+                        }else{
+                            $tmp = false;
+                            $grup = "Tots els seus";
+                            $_SESSION['grup'] = NULL;
+                            if (isset($_POST['grup'])) {
+                                $grup = $_POST['grup'];
+                                if ($grup == "Tots els seus") {
+                                    $_SESSION['grup'] = NULL;
+                                } else {
+                                    $_SESSION['grup'] = $grup;
+                                }
                             }
                         }
                     }else{
-                        $tmp = true;
-                        $grup = "Tots el meus";//$llista_grups[0][0];
-                        $_SESSION['grup'] = NULL;
-                        if (isset($_POST['grup'])) {
-                            $grup = $_POST['grup'];
-                            if ($grup == "Tots els meus") {
-                                $_SESSION['grup'] = NULL;
-                            } else {
-                                $_SESSION['grup'] = $grup;
+                        if ($_SESSION['ambit_selec'] == "Professors" ){
+                            var_dump("hhhh");
+                            $tmp = true;//estaba true/////////////////////////////////////////////////////////////////////////////////////////
+                            $grup = "Tots els meus";//tots els meus
+                            $_SESSION['grup'] = NULL;
+                            if (isset($_POST['grup'])) {
+                                $grup = $_POST['grup'];
+                                if ($grup == "Tots els meus") {//tots els meus
+                                    $_SESSION['grup'] = NULL;
+                                } else {
+                                    $_SESSION['grup'] = $grup;
+                                }
+                            }
+                        }else{
+
+                            $tmp = true;
+                            $grup = "Tots el seus";
+                            $_SESSION['grup'] = NULL;
+                            if (isset($_POST['grup'])) {
+                                $grup = $_POST['grup'];
+                                if ($grup == "Tots els seus") {
+                                    $_SESSION['grup'] = NULL;
+                                } else {
+                                    $_SESSION['grup'] = $grup;
+                                }
                             }
                         }
-                    }
-                }else{
 
-                    $tmp = false;
-                    $grup = "Tots";
-                    $_SESSION['grup'] = NULL;
-                    if (isset($_POST['grup'])) {
-                        $grup = $_POST['grup'];
-                        if ($grup == "Tots") {
-                            var_dump("eyy");
-                            $_SESSION['grup'] = NULL;
-                        } else {
-                            $_SESSION['grup'] = $grup;
-                        }
                     }
+                }
+                else{
+                    //caso de basico-total, o todos los demas///////////////////////////////////////////////////////////////////////////
+                    //$n_grups_totals[0]['num'] == sizeof($llista_grups))
+                    //var_dump($n_grups_totals[0]['num']);
+                    //var_dump(sizeof($mi_lista_grups));
+
+                    if ($_SESSION['ambit_selec'] == "Professors" ){
+
+                        if(isset($mi_lista_grups)){
+                            if ($n_grups_totals[0]['num'] == sizeof($mi_lista_grups)){
+                                $tmp = false;
+                                $grup = "Tots";
+                                $_SESSION['grup'] = NULL;
+                                if (isset($_POST['grup'])) {
+                                    $grup = $_POST['grup'];
+                                    if ($grup == "Tots") {
+                                        $_SESSION['grup'] = NULL;
+                                    } else {
+                                        $_SESSION['grup'] = $grup;
+                                    }
+                                }
+                            }else{
+                                $tmp = true;
+                                $grup = "Tots";//$grup = "Tots els meus";
+                                $_SESSION['grup'] = NULL;
+                                if (isset($_POST['grup'])) {
+                                    $grup = $_POST['grup'];
+                                    if ($grup == "Tots") { //"Tots els meus"
+                                        $_SESSION['grup'] = NULL;
+                                    } else {
+                                        $_SESSION['grup'] = $grup;
+                                    }
+                                }
+                            }
+                        }else{
+                            $tmp = false;
+                            $grup = "Tots";
+                            $_SESSION['grup'] = NULL;
+                            if (isset($_POST['grup'])) {
+                                $grup = $_POST['grup'];
+                                if ($grup == "Tots") {
+                                    $_SESSION['grup'] = NULL;
+                                } else {
+                                    $_SESSION['grup'] = $grup;
+                                }
+                            }
+                        }
+
+
+
+
+
+                    }else{
+                        if(isset($_SESSION['asigs_dept'])){//ambito == departaments
+
+                            if ($count > 0){//entra si la asig pertenece a un profe del Dept
+
+                                if (!isset($_SESSION['in']) && !isset($_SESSION['entra_dept'])){
+                                    //este if lo he añadido porque en el caso de total-NBT se viera Tots, en vez de Tots els seus
+                                    $tmp = false;
+                                    $grup = "Tots";
+                                    $_SESSION['grup'] = NULL;
+                                    if (isset($_POST['grup'])) {
+                                        $grup = $_POST['grup'];
+                                        if ($grup == "Tots") {
+                                            $_SESSION['grup'] = NULL;
+                                        } else {
+                                            $_SESSION['grup'] = $grup;
+                                        }
+                                    }
+                                }else{
+                                    $tmp = true;
+                                    $grup = "Tots els seus";
+                                    $_SESSION['grup'] = NULL;
+                                    if (isset($_POST['grup'])) {
+                                        $grup = $_POST['grup'];
+                                        if ($grup == "Tots els seus") {
+                                            $_SESSION['grup'] = NULL;
+                                        } else {
+                                            $_SESSION['grup'] = $grup;
+                                        }
+                                    }
+                                }
+
+                            }else{
+                                $tmp = false;
+                                $grup = "Tots";
+                                $_SESSION['grup'] = NULL;
+                                if (isset($_POST['grup'])) {
+                                    $grup = $_POST['grup'];
+                                    if ($grup == "Tots") {
+                                        $_SESSION['grup'] = NULL;
+                                    } else {
+                                        $_SESSION['grup'] = $grup;
+                                    }
+                                }
+                            }
+                        }else{//otros Ambitos
+                            $tmp = false;
+                            $grup = "Tots";
+                            $_SESSION['grup'] = NULL;
+                            if (isset($_POST['grup'])) {
+                                $grup = $_POST['grup'];
+                                if ($grup == "Tots") {
+                                    $_SESSION['grup'] = NULL;
+                                } else {
+                                    $_SESSION['grup'] = $grup;
+                                }
+                            }
+                        }
+
+                    }
+
                 }
             }else{
                 //se ha comentado esta parte, se ha de solo ver un grupo cuando solo existe 1 grupo
@@ -317,6 +547,7 @@ if (isset($_SESSION['niu']) ) {
                 $participacio = participacio_grup(connection(), "$edicio", "$assignatura", "$grup");
             }
 
+
             if ($matriculats[0][0] != NULL) {
                 $percentParticipacio = round(($participacio[0][0] / $matriculats[0][0]) * 100);
                 $percentParticipacio = $percentParticipacio . "%";
@@ -329,41 +560,92 @@ if (isset($_SESSION['niu']) ) {
              * Se comprueba que la asignatura que se va a mostrar es una asignatura de las que imparte
              * Si el contador es mayor que 0 se comprueba si el grupo que se muestra le pertenece
              * */
-            if ((isset($_SESSION['entra_profes']) || isset($_SESSION['in']) )&& $_SESSION['ambit_selec'] == 'Professors'){
+            if (   (isset($_SESSION['entra_profes']) || isset($_SESSION['in']) || isset($_SESSION['entra_dept'])   )
+                && ($_SESSION['ambit_selec'] == 'Professors' || $_SESSION['ambit_selec'] == 'Departaments')){
                 //isset($_SESSION['lista_asigs_profes'])) {
-                $count = 0;
-                for ($i = 0; $i < sizeof($_SESSION['lista_asigs_profes']); $i++) {
-                    if ($_SESSION['lista_asigs_profes'][$i]['Assignatura'] == $assignatura) {
-                        $count++;
+
+                /*if ($_SESSION['ambit_selec'] == 'Professors' ){//professors
+                    $count = 0;
+                    for ($i = 0; $i < sizeof($_SESSION['lista_asigs_profes']); $i++) {
+                        if ($_SESSION['lista_asigs_profes'][$i]['Assignatura'] == $assignatura) {
+                            $count++;
+                        }
                     }
-                }
+                }*/
+                //else{//departaments
+                    //aqui se comprueba si el grupo q se muestra la imparte el profe del departamento
+                    /*if (isset($_SESSION['asigs_dept'])) {
+                        $count = 0;
+                        for ($i = 0; $i < sizeof($_SESSION['asigs_dept']); $i++) {
+                            if ($_SESSION['asigs_dept'][$i]['Assignatura'] == $assignatura) {
+                                $count++;
+                            }
+                        }
+                    }*/
+               // }
 
                 if ($count > 0){
-                    $mis_grupos = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",$_SESSION['niu'], "$pla", "$assignatura");
-
-                    if ($grup == "Tots") {
-                        if ($n_grups_totals[0]['num'] == sizeof($mis_grupos))
-                        {
-                            $count = 1;
-                        }else{
-                            $count = 0;
-                        }
-                    } else {
-                        $i =0;
-                        $trobat = false;
-                        while ($i<sizeof($mis_grupos) && !$trobat)
-                        {
-                            if ($grup == $mis_grupos[$i][0])
+                    if ($_SESSION['ambit_selec'] == 'Professors'){
+                        $mis_grupos = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",$_SESSION['niu'], "$pla", "$assignatura");
+                        if ($grup == "Tots" || $grup == "Tots els meus") {// el OR de Tots els meus añadido
+                            if ($n_grups_totals[0]['num'] == sizeof($mis_grupos))
                             {
-                                $trobat = true;
+
                                 $count = 1;
+                            }else{
+                                if (isset($_SESSION['in'])){
+                                    $count = 1;
+                                }else{
+                                    $count = 0;
+                                }
+
                             }
-                            $i++;
+                        } else {
+                            $i =0;
+                            $trobat = false;
+                            while ($i<sizeof($mis_grupos) && !$trobat)
+                            {
+                                if ($grup == $mis_grupos[$i][0])
+                                {
+                                    $trobat = true;
+                                    $count = 1;
+                                }
+                                $i++;
+                            }
+                            if (!$trobat){
+                                $count=0;
+                            }
                         }
-                        if (!$trobat){
-                            $count=0;
+                    }else{
+                        $mis_grupos = grup_profes(connection(),$anio_edicio[0]['anio_inicio'], "$edicio",$profe_dept, "$pla",
+                            "$assignatura");
+                        if ($grup == "Tots els seus") {
+                            if ($n_grups_totals[0]['num'] == sizeof($mis_grupos))
+                            {
+                                $count = 1;
+                            }else{
+
+                                $count = 0;
+                            }
+
+                        } else {
+                            $i =0;
+                            $trobat = false;
+                            while ($i<sizeof($mis_grupos) && !$trobat)
+                            {
+                                if ($grup == $mis_grupos[$i][0])
+                                {
+                                    $trobat = true;
+                                    $count = 1;
+                                }
+                                $i++;
+                            }
+                            if (!$trobat){
+                                $count=0;
+                            }
                         }
                     }
+
                 }else{
                     $count = 0;
                 }

@@ -1,3 +1,4 @@
+
 <style>
     .table-wrapper {
         max-height: 200px;
@@ -50,13 +51,36 @@ if (isset($sin_permisos)){
     <div style="padding: 15px;">
         <form action="index.php?action=res&ve=<?php echo $versio ?>&ed=<?php echo $edicio ?>&pla=<?php echo $pla ?>&as=<?php echo $assignatura ?>" method="post">
             <select name="grup" id="grup" class="custom-select custom-select-md" style="width: 150px;">
-                <?php  if (!$tmp){ ?>
-                    <option value="Tots">Tots</option>
+                <?php  if (!$tmp){//cuando imparte en todos los grupo
+                        if($_SESSION['ambit_selec'] == "Professors" ){?>
+                                <option value="Tots">Tots</option>
+                        <?php }else{
+                            if ($_SESSION['ambit_selec'] == "Departaments" && (isset($_SESSION['in']) || isset($_SESSION['entra_dept'])) && $count > 0){ //$count > 0 && ?>
+                            <option value="Tots els seus">Tots els seus</option>
+
+                        <?php
+                            }else{?>
+                                <option value="Tots">Tots</option>
+                            <?php  }
+                        } ?>
                     <?php foreach ($llista_grups as $grup): ?>
                         <option value="<?php echo $grup[0];?>"><?php echo htmlentities($grup[0]);?></option>
                     <?php endforeach; ?>
-                <?php }else{ ?>
-                    <option value="Tots els meus">Tots els meus</option>
+                <?php }else{//cuando NO imparte en todos los grupo
+                        if($_SESSION['ambit_selec'] == "Professors" ){
+                            if($count > 0 && isset($_SESSION['in'])){//el isset añadido?>
+
+                                <option value="Tots els meus">Tots els meus</option>
+
+                          <?php
+                            }else {?>
+
+
+                    <option value="Tots">Tots</option>
+                    <?php }
+                        }else{?>
+                            <option value="Tots els seus">Tots els seus</option>
+                        <?php   } ?>
                     <?php foreach ($llista_grups as $grup): ?>
                         <option value="<?php echo $grup[0];?>"><?php echo htmlentities($grup[0]);?></option>
                     <?php endforeach; ?>

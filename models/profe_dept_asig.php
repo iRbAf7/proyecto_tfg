@@ -23,6 +23,6 @@ ORDER BY asignaturas.nombre ASC
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
-    return ($graus_dept[0]['Profesores_niu']);
+    return ($graus_dept);
 }
 

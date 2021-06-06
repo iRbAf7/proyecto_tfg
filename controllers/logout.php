@@ -14,5 +14,6 @@ phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
 
 // Hace logout
 phpCAS::logout();*/
+session_start();
 session_destroy();
 header("Refresh:0; url=/silvia_visor_encuestas_v2_1/index.php?action=");

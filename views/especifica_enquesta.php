@@ -43,12 +43,14 @@ if (!isset($_SESSION['niu'])){
             <label class="control-label col-sm-2" for="nom_edicio">Edició: </label>
             <div class="col-sm-10">
                 <select name="nom_edicio" id="nom_edicio" class="form-control">
-                    <option value="<?php echo $result_llistar_edicions[0]['nom'];?>" selected>
+                    <?php if (gettype($result_llistar_edicions) == "array"){?>
+                    <option value="<?php echo $result_llistar_edicions[0]['nom'];?>" >
                         <?php
-                        echo htmlentities($result_llistar_edicions[0]['descripcio']);
+                            echo htmlentities($result_llistar_edicions[0]['descripcio']);
                         ?>
                     </option>
-                    <?php if (sizeof($result_llistar_edicions) > 1){
+                    <?php }
+                    if (gettype($result_llistar_edicions) == "array" && sizeof($result_llistar_edicions) > 1){
                         for ($i = 1 ;$i<sizeof($result_llistar_edicions);$i++){ ?>
                             <option value="<?php echo $result_llistar_edicions[$i]['nom'];?>">
                                 <?php echo htmlentities($result_llistar_edicions[$i]['descripcio']);?>

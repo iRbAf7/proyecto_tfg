@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("models/connection.php");
 require_once("models/comprobar_permiso_ambito.php");
 require_once("models/comprobar_permiso_defecto.php");
@@ -17,7 +18,7 @@ require_once("models/consulta_graus_estudis.php");
 require_once("models/consulta_graus_centres.php");
 require_once("models/consulta_graus_departaments.php");
 require_once("models/consulta_graus_profes.php");
-
+//session_start();
 if (isset($_SESSION['niu'])){
     $result_llistar_models = llistar_models(connection());
     $idAmbito_defecto = comprobar_idAmbito_defecto(connection(),$_SESSION['ambito_defecto']);
@@ -43,6 +44,7 @@ if (isset($_SESSION['niu'])){
                     $_SESSION['permiso_superior'] = $_SESSION['permiso_ambito'];
                     $result_llistar_edicions = llistar_edicions_estudis(connection(),$_SESSION['idEnAmbito'],"");
                     //$_SESSION['result_llistar_pla'] = consulta_graus_estudis(connection(),$_SESSION['idEnAmbito'] );
+
                 }else{
                     if ($_SESSION['permiso_defecto'] == "basico" && $_SESSION['permiso_ambito'] == "total"){
 
@@ -118,7 +120,6 @@ if (isset($_SESSION['niu'])){
                 break;
         }
     }
-
 
     if (isset($_POST['nom_model'])) {
         if (!isset($_SESSION['form'])){

@@ -49,7 +49,6 @@ ORDER BY asignaturas.nombre ASC ");
                     'PlaPropietari' => $PlaPropietari,
                 ];
             }else {
-
                 $asigs_profes = $connection->prepare("
                 SELECT DISTINCT resultats.Assignatura, asignaturas.nombre
 FROM resultats INNER JOIN asignaturas ON resultats.Assignatura = asignaturas.idAsignaturas
@@ -75,5 +74,6 @@ ORDER BY asignaturas.nombre ASC");
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
+
     return ($asigs_profes);
 }

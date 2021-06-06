@@ -9,7 +9,7 @@ require_once("models/consulta_graus_estudis.php");
 require_once("models/consulta_graus_centres.php");
 require_once("models/consulta_graus_departaments.php");
 require_once("models/consulta_graus_profes.php");
-
+session_start();
 
 if (isset($_SESSION['niu']) ) {
     if ($_SESSION['permiso_ambito'] == "ninguno" && $_SESSION['permiso_defecto'] == "ninguno") {
@@ -76,13 +76,11 @@ if (isset($_SESSION['niu']) ) {
 
                         $lista_estudios = llistar_pla(connection());
                     }else{
-
                         $lista_estudios = llistar_pla(connection());
                     }
                 }
                 break;
             default://universitat y estudiants
-
                 $lista_estudios = llistar_pla(connection());
                 break;
         }

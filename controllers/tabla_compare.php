@@ -20,9 +20,10 @@ require_once("models/matriculats.php");
 require_once("models/calcul_mitjana.php");
 require_once("models/participacio.php");
 require_once("models/participacio_profe.php");
-
+session_start();
 if (isset($_SESSION['niu']) ) {
     if(isset($_POST['assignatura'])){
+
         $version = llistar_versions(connection());
 
         $nom_asig = return_nom_asig(connection(),$_POST['assignatura']);
@@ -34,16 +35,36 @@ if (isset($_SESSION['niu']) ) {
 
         switch ($_SESSION['ambit_selec']){
             case 'Estudis':
-                $ediciones = llistar_edicions_estudis(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                    $ediciones = llistar_edicions_estudis(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+                }else{
+                    $ediciones = ediciones_de_asig(connection(), $_POST['assignatura']);
+                }
                 break;
             case 'Centres':
-                $ediciones = llistar_edicions_centres(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                    $ediciones = llistar_edicions_centres(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+                }else{
+                    $ediciones = ediciones_de_asig(connection(), $_POST['assignatura']);
+                }
                 break;
             case 'Departaments':
-                $ediciones = llistar_edicions_depts(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                    $ediciones = llistar_edicions_depts(connection(),$_SESSION['idEnAmbito'],$_POST['assignatura']);
+                }else{
+                    $ediciones = ediciones_de_asig(connection(), $_POST['assignatura']);
+                }
+
                 break;
             case 'Professors':
-                $ediciones = llistar_edicions_profes(connection(),$_SESSION['niu'],$_POST['assignatura']);
+
+                if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"){
+                    $ediciones = llistar_edicions_profes(connection(),$_SESSION['niu'],$_POST['assignatura']);
+                }else{
+                    $ediciones = ediciones_de_asig(connection(), $_POST['assignatura']);
+                }
                 break;
             default:
                 $ediciones = ediciones_de_asig(connection(), $_POST['assignatura']);
@@ -62,13 +83,15 @@ if (isset($_SESSION['niu']) ) {
         $preg8 = array();
         $preg9 = array();
 
-
+        ?><script>
+            console.log(<?php var_dump($_POST['assignatura']); ?>);
+        </script>
+        <?php
 
         for ($i =0; $i <sizeof($ediciones);$i++){
 
             if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] != "ninguno"
                 && $_SESSION['ambit_selec'] == "Professors"){
-
 
                 $matriculats = matriculats_segons_profe(connection(),$ediciones[$i]['anio_inicio'],$ediciones[$i]['nom'],$id_pla, $_SESSION['niu'], $_POST['assignatura']);
                 $n_participants = participacio_profe(connection(), $ediciones[$i]['anio_inicio'],$ediciones[$i]['nom'],$_SESSION['niu'], "$id_pla", $_POST['assignatura']);
@@ -162,6 +185,7 @@ if (isset($_SESSION['niu']) ) {
 
 
             }else{
+
 
             $matriculats=matriculats(connection(),$ediciones[$i]['anio_inicio'],$ediciones[$i]['nom'],$id_pla, $_POST['assignatura']);
             //en la consulta de abajo no hace falta poner el anio de edicion ya que solo consulta la tabla resultats

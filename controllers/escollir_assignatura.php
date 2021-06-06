@@ -7,7 +7,7 @@ require_once("models/nom_pla.php");
 require_once("models/nom_model.php");
 require_once("models/nom_versio.php");
 require_once("models/nom_edicio.php");
-
+session_start();
 if (isset($_SESSION['niu']) ) {
     if ($_SESSION['permiso_defecto'] == "ninguno" && $_SESSION['permiso_ambito'] == "ninguno") {
 
@@ -35,15 +35,16 @@ if (isset($_SESSION['niu']) ) {
          * correspondientes para poder utilizarlas en controller/consultar_resultats
          * para ver si pertencen a la lista de correspondientes al ambito
          * */
-        if($_SESSION['ambit_selec'] == 'Departaments' || isset($_SESSION['entra_dept']))
+        /*if($_SESSION['ambit_selec'] == 'Departaments' || isset($_SESSION['entra_dept']))
         {
             $_SESSION['asigs_dept'] = llistar_assignatures_dept(connection(),$_SESSION['idEnAmbito'],"$edicio", "$pla");
-        }
 
-        if($_SESSION['ambit_selec'] == 'Professors' || isset($_SESSION['entra_profes']))
+        }*/
+
+        /*if($_SESSION['ambit_selec'] == 'Professors' || isset($_SESSION['entra_profes']))
         {
             $_SESSION['lista_asigs_profes'] = llistar_asigs_profes(connection(),$_SESSION['niu'] ,"$edicio", "$pla");
-        }
+        }*/
 
         /*
          * Estas condiciones se comprueban porque la lista de asignaturas que se
@@ -55,16 +56,17 @@ if (isset($_SESSION['niu']) ) {
             if($_SESSION['permiso_superior'] == $_SESSION['permiso_ambito']){
                 if ($_SESSION['ambit_selec'] == 'Departaments'){
 
-                    $result_llistar_assignatures = $_SESSION['asigs_dept'];
+                    $result_llistar_assignatures = llistar_assignatures_dept(connection(),$_SESSION['idEnAmbito'],"$edicio", "$pla");
+                                                //= $_SESSION['asigs_dept'];
                 }else{//en caso de Professor
-                    $result_llistar_assignatures = $_SESSION['lista_asigs_profes'];
+                    $result_llistar_assignatures = llistar_asigs_profes(connection(),$_SESSION['niu'] ,"$edicio", "$pla");
+                                                // = $_SESSION['lista_asigs_profes'];
                 }
             }else{
                 $result_llistar_assignatures = llistar_assignatures(connection(), "$edicio", "$pla");
             }
         }else{
             $result_llistar_assignatures = llistar_assignatures(connection(), "$edicio", "$pla");
-
         }
 
 

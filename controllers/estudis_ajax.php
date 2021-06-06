@@ -9,7 +9,7 @@ require_once("models/consulta_graus_estudis.php");
 require_once("models/consulta_graus_centres.php");
 require_once("models/consulta_graus_departaments.php");
 require_once("models/consulta_graus_profes.php");
-
+session_start();
 if (isset($_POST['nom_edicio'])){//despues comoprobar q no me de error por usar post[nom_edicio]
 
     $nom_edicio = $_POST['nom_edicio'];
